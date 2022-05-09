@@ -41,7 +41,7 @@ flutter:
     - assets/images/
 
   fonts:
-    - family: Jannah
+    - family: jannah
       fonts:
         - asset: assets/fonts/jannah.ttf
           weight: 700

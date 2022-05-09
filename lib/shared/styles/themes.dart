@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:shop_app/shared/styles/colors.dart';
 
 ThemeData light = ThemeData(
-  primarySwatch: defaultColor,
   appBarTheme: const AppBarTheme(
     titleSpacing: 20.0,
     systemOverlayStyle: SystemUiOverlayStyle(
@@ -35,5 +33,5 @@ ThemeData light = ThemeData(
       )
   ),
   scaffoldBackgroundColor: Colors.white,
-  fontFamily: 'Jannah',
+  fontFamily: 'jannah',
 );

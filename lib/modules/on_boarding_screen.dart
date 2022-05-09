@@ -21,7 +21,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         actions: [
           TextButton(
             onPressed: () {
-              navigateAndRemoveUntil(context, const LoginScreen());
+              navigateAndRemoveUntil(context, LoginScreen());
             },
             child: const Text(
               'SKIP',
@@ -71,7 +71,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 FloatingActionButton(
                   onPressed: () {
                     if (isLast) {
-                      navigateTo(context, const LoginScreen());
+                      navigateAndRemoveUntil(context, LoginScreen());
                     } else {
                       boardController.nextPage(
                         duration: const Duration(
