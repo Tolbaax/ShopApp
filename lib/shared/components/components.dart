@@ -1,23 +1,25 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app/shared/styles/colors.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 Widget defaultFormField({
   String? Function(String?)? onChange,
+  String? Function(String?)? onSubmit,
   required String? Function(String?)? validate,
   required TextEditingController controller,
-  void Function()? suffixPressed,
+  Function? suffixPressed,
   required TextInputType type,
   required IconData prefix,
+  IconData? suffix,
   required String label,
   bool readOnly = false,
   Function()? onTab,
   bool isPassword = false,
-  IconData? suffix,
 }) =>
     TextFormField(
       controller: controller,
       keyboardType: type,
       validator: validate,
+      onFieldSubmitted: onSubmit,
       onChanged: onChange,
       obscureText: isPassword,
       onTap: onTab,
@@ -27,15 +29,11 @@ Widget defaultFormField({
         prefixIcon: Icon(
           prefix,
         ),
-        suffix: GestureDetector(
-          onTap: ()
-          {
-            suffixPressed;
+        suffixIcon: IconButton(
+          icon: Icon(suffix),
+          onPressed: (){
+            suffixPressed!();
           },
-          child: Icon(
-            suffix,
-            color: defaultColor,
-          ),
         ),
         border: const OutlineInputBorder(),
       ),
@@ -71,3 +69,61 @@ void navigateTo(context, widget) =>
 
 void navigateAndRemoveUntil(context, widget) => Navigator.pushAndRemoveUntil(
     context, MaterialPageRoute(builder: (context) => widget), (route) => false);
+
+void showToast({
+  required String text,
+  required ToastState state,
+}) =>
+    Fluttertoast.showToast(
+    msg: text,
+    toastLength: Toast.LENGTH_LONG,
+    gravity: ToastGravity.BOTTOM,
+    timeInSecForIosWeb: 5,
+    backgroundColor: chooseToastColor(state),
+    textColor: Colors.white,
+    fontSize: 16.0
+);
+
+// enum
+enum ToastState {success, error, warning}
+
+Color? chooseToastColor(ToastState state)
+{
+
+  Color? color;
+
+  switch(state)
+  {
+    case ToastState.success:
+      color =  Colors.green;
+      break;
+    case ToastState.error:
+      break;
+    case ToastState.warning:
+      break;
+  }
+
+  switch(state)
+  {
+    case ToastState.error:
+      color =  Colors.red;
+      break;
+    case ToastState.success:
+      break;
+    case ToastState.warning:
+      break;
+  }
+
+  switch(state)
+  {
+    case ToastState.warning:
+      color =  Colors.amber;
+      break;
+    case ToastState.success:
+      break;
+    case ToastState.error:
+      break;
+  }
+
+  return color;
+}
