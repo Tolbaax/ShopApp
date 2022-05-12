@@ -1,2 +1,4 @@
 
-const LOGIN = 'login';
+const login = 'login';
+
+const home = 'home';

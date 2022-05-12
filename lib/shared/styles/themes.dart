@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shop_app/shared/styles/colors.dart';
 
 ThemeData light = ThemeData(
+  primarySwatch: defaultColor,
   appBarTheme: const AppBarTheme(
     titleSpacing: 20.0,
     systemOverlayStyle: SystemUiOverlayStyle(
@@ -20,7 +22,7 @@ ThemeData light = ThemeData(
     elevation: 0.0,
   ),
   bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-      selectedItemColor: Colors.deepOrange,
+      selectedItemColor: defaultColor,
       type: BottomNavigationBarType.fixed,
       backgroundColor: Colors.white,
       elevation: 20.0
