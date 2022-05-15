@@ -67,6 +67,7 @@ class ProductModel
     price = json['price'];
     inFavorite = json['in_favorite'];
     inCart = json['in_cart'];
+    name = json['name'];
 
   }
 }
