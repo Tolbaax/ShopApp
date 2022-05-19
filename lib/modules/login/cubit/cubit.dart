@@ -18,9 +18,11 @@ class ShopLoginCubit extends Cubit<ShopLoginStates> {
   }) {
     emit(ShopLoginLoadingState());
     // post =>> create user
-    DioHelper.postData(url: login, data: {
-      'email': email,
-      'password': password,
+    DioHelper.postData(
+        url: LOGIN,
+        data: {
+          'email': email,
+          'password': password,
     }).then((value) {
       // ignore: avoid_print
       print(value.data);

@@ -35,5 +35,5 @@ ThemeData light = ThemeData(
       )
   ),
   scaffoldBackgroundColor: Colors.white,
-  fontFamily: 'jannah',
+  // fontFamily: 'CreteRound',
 );

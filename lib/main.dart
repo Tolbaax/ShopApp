@@ -10,8 +10,7 @@ import 'package:shop_app/shared/network/remote/dio_helper.dart';
 import 'package:shop_app/shared/styles/themes.dart';
 import 'shared/bloc/bloc_observer.dart';
 
-void main() async{
-
+void main() async {
   //make sure that everything in methode is finished, then open the app
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -23,30 +22,29 @@ void main() async{
   bool? onBoarding = CacheHelper.getData(key: 'onBoarding');
   String? token = CacheHelper.getData(key: 'token');
 
-  if(onBoarding != null) {
-    if(token != null) {
+  if (onBoarding != null) {
+    if (token != null) {
       widget = const ShopLayout();
-    }
-    else {
+    } else {
       widget = LoginScreen();
     }
-  }
-  else {
+  } else {
     widget = const OnBoardingScreen();
   }
 
   BlocOverrides.runZoned(
-        () {
-          // Use blocs...
-          runApp( MyApp(startWidget:widget,));
-          ShopLoginCubit();
+    () {
+      // Use blocs...
+      runApp(MyApp(
+        startWidget: widget,
+      ));
+      ShopLoginCubit();
     },
     blocObserver: MyBlocObserver(),
   );
 }
 
 class MyApp extends StatelessWidget {
-
   final Widget startWidget;
   const MyApp({Key? key, required this.startWidget}) : super(key: key);
 
@@ -54,14 +52,17 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => ShopCubit()..getHomeData()),
+        BlocProvider(
+            create: (context) => ShopCubit()
+              ..getHomeData()
+              ..getCategories()
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: light,
-        home: const OnBoardingScreen(),
+        home: startWidget,
       ),
     );
   }
 }
-

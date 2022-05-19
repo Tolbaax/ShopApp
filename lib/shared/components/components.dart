@@ -70,6 +70,15 @@ void navigateTo(context, widget) =>
 void navigateAndRemoveUntil(context, widget) => Navigator.pushAndRemoveUntil(
     context, MaterialPageRoute(builder: (context) => widget), (route) => false);
 
+Widget myDivider() => Padding(
+  padding: const EdgeInsetsDirectional.only(start: 20.0),
+  child: Container(
+    width: double.infinity,
+    height: 1.0,
+    color: Colors.grey[300],
+  ),
+);
+
 void showToast({
   required String text,
   required ToastState state,

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shop_app/models/categories_model.dart';
 import 'package:shop_app/models/home_mode;.dart';
 import 'package:shop_app/modules/categories/categories_screen.dart';
 import 'package:shop_app/modules/favorites/favorites_screen.dart';
@@ -20,7 +21,7 @@ class ShopCubit extends Cubit<ShopStates>
   int currentIndex = 0;
 
   List<Widget> bottomScreens = [
-    ProductsScreen(),
+    const ProductsScreen(),
     const CategoriesScreen(),
     const FavoritesScreen(),
     const SettingsScreen(),
@@ -32,6 +33,8 @@ class ShopCubit extends Cubit<ShopStates>
     emit(ShopChangeBottomNav());
   }
 
+  //====================================================
+
   HomeModel? homeModel;
 
   void getHomeData()
@@ -39,7 +42,7 @@ class ShopCubit extends Cubit<ShopStates>
     emit(ShopLoadingHomeDataState());
 
     DioHelper.getData(
-      url: home,
+      url: HOME,
       token: token,
     ).then((value) {
 
@@ -53,4 +56,28 @@ class ShopCubit extends Cubit<ShopStates>
 
     });
   }
+
+  //====================================================
+
+  CategoriesModel? categoriesModel;
+
+  void getCategories()
+  {
+    DioHelper.getData(
+      url: GET_CATEGORIES,
+      token: token,
+    ).then((value) {
+
+      categoriesModel = CategoriesModel.fromJson(value.data);
+      printFullText(homeModel.toString());
+      emit(ShopSuccessCategoriesState());
+
+    }).catchError((error){
+      print(error.toString());
+      emit(ShopErrorCategoriesState());
+    });
+  }
+
+//====================================================
+
 }
