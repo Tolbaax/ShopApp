@@ -27,6 +27,10 @@ class ShopCubit extends Cubit<ShopStates>
     const SettingsScreen(),
   ];
 
+  Map<int, bool> favorites = {};
+
+  HomeModel? homeModel;
+
   void changeBottom(int index)
   {
     currentIndex = index;
@@ -34,8 +38,6 @@ class ShopCubit extends Cubit<ShopStates>
   }
 
   //====================================================
-
-  HomeModel? homeModel;
 
   void getHomeData()
   {
@@ -47,6 +49,13 @@ class ShopCubit extends Cubit<ShopStates>
     ).then((value) {
 
       homeModel = HomeModel.fromJson(value.data);
+
+      for (var element in homeModel!.data!.products) {
+        favorites.addAll({
+          element.id!: element.inFavorite!
+        });
+      }
+      print(favorites.toString());
       printFullText(homeModel.toString());
       emit(ShopSuccessHomeDataState());
 

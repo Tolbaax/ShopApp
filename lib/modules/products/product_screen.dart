@@ -1,5 +1,4 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_app/models/categories_model.dart';
@@ -15,110 +14,105 @@ class ProductsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<ShopCubit, ShopStates>(
       listener: (context, state) {},
-      builder: (context, state)
-      {
-        return ConditionalBuilder(
-            condition: ShopCubit.get(context).homeModel !=  null && ShopCubit.get(context).categoriesModel != null,
-            builder: (context) => productBuilder(ShopCubit.get(context).homeModel!,ShopCubit.get(context).categoriesModel!),
-            fallback: (context) => const Center(child: CircularProgressIndicator(),),
-        );
+      builder: (context, state) {
+        return ShopCubit.get(context).homeModel != null &&
+            ShopCubit.get(context).categoriesModel != null
+            ? productBuilder(ShopCubit.get(context).homeModel!,
+            ShopCubit.get(context).categoriesModel!, context)
+            : const Center(child: CircularProgressIndicator(),);
       },
     );
   }
 
-  Widget productBuilder(HomeModel homeModel, CategoriesModel categoriesModel) => SingleChildScrollView(
-    physics: const BouncingScrollPhysics(),
-    child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-           padding: const EdgeInsetsDirectional.all(15.0),
-           child: CarouselSlider(
-               items: homeModel.data!.banners.map((e) => Image(
-                 image: NetworkImage('${e.image}'),
-                 width: double.infinity,
-                 fit: BoxFit.cover,
-               ),).toList(),
-               options: CarouselOptions(
-                 height: 250.0,
-                 initialPage: 0,
-                 enableInfiniteScroll: true,
-                 reverse: false,
-                 autoPlay: true,
-                 autoPlayInterval: const Duration(seconds: 3),
-                 autoPlayAnimationDuration: const Duration(seconds: 1),
-                 autoPlayCurve: Curves.fastOutSlowIn,
-                 scrollDirection: Axis.horizontal,
-                 viewportFraction: 1.0,
-
-               ),
-           ),
-         ),
-        const SizedBox(
-          height: 10,
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 10.0,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Categories',
-                style: TextStyle(
-                  fontSize: 26.0,
-                  fontWeight: FontWeight.w800
-                ),
-              ),
-              const SizedBox(
-                height: 15.0,
-              ),
-              SizedBox(
-                height: 100.0,
-                child: ListView.separated(
-                  physics: const BouncingScrollPhysics(),
+  Widget productBuilder(HomeModel homeModel, CategoriesModel categoriesModel,BuildContext context) =>
+      SingleChildScrollView(
+        physics: const BouncingScrollPhysics(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsetsDirectional.all(15.0),
+              child: CarouselSlider(
+                items: homeModel.data!.banners.map(
+                      (e) => Image(
+                    image: NetworkImage('${e.image}'),
+                    width: double.infinity,
+                    fit: BoxFit.cover,
+                  ),
+                ).toList(),
+                options: CarouselOptions(
+                  height: 250.0,
+                  initialPage: 0,
+                  enableInfiniteScroll: true,
+                  reverse: false,
+                  autoPlay: true,
+                  autoPlayInterval: const Duration(seconds: 3),
+                  autoPlayAnimationDuration: const Duration(seconds: 1),
+                  autoPlayCurve: Curves.fastOutSlowIn,
                   scrollDirection: Axis.horizontal,
-                    itemBuilder: (context, index) => buildCategoryItem(categoriesModel.data!.data[index]),
-                    separatorBuilder: (context, index) => const SizedBox(
-                      width: 10.0,
-                    ),
-                    itemCount: categoriesModel.data!.data.length
+                  viewportFraction: 1.0,
                 ),
               ),
-              const SizedBox(
-                height: 30.0,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 10.0,
               ),
-              const Text(
-                'New Products',
-                style: TextStyle(
-                    fontSize: 26.0,
-                    fontWeight: FontWeight.w800
-                ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Categories',
+                    style:
+                    TextStyle(fontSize: 26.0, fontWeight: FontWeight.w800),
+                  ),
+                  const SizedBox(
+                    height: 15.0,
+                  ),
+                  SizedBox(
+                    height: 100.0,
+                    child: ListView.separated(
+                        physics: const BouncingScrollPhysics(),
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) => buildCategoryItem(
+                            categoriesModel.data!.data[index], context),
+                        separatorBuilder: (context, index) => const SizedBox(
+                          width: 10.0,
+                        ),
+                        itemCount: categoriesModel.data!.data.length),
+                  ),
+                  const SizedBox(
+                    height: 30.0,
+                  ),
+                  const Text(
+                    'New Products',
+                    style:
+                    TextStyle(fontSize: 26.0, fontWeight: FontWeight.w800),
+                  ),
+                  const SizedBox(
+                    height: 10.0,
+                  ),
+                ],
               ),
-              const SizedBox(
-                height: 10.0,
-              ),
-            ],
-          ),
+            ),
+            GridView.count(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              crossAxisCount: 2,
+              mainAxisSpacing: 1.0,
+              crossAxisSpacing: 1.0,
+              childAspectRatio: 1 / 1.57,
+              children: List.generate(homeModel.data!.products.length,
+                      (index) => buildGridProduct(homeModel.data!.products[index],context),),
+            ),
+          ],
         ),
-        GridView.count(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          crossAxisCount: 2,
-          mainAxisSpacing: 1.0,
-          crossAxisSpacing: 1.0,
-          childAspectRatio: 1 / 1.57,
-          children: List.generate(
-              homeModel.data!.products.length,
-                  (index) => buildGridProduct(homeModel.data!.products[index])
-          ),
-        ),
-      ],
-    ),
-  );
+      );
 
-  Widget buildCategoryItem(DataModel dataModel) => Stack(
+  Widget buildCategoryItem(DataModel dataModel, BuildContext context) => Stack(
     alignment: AlignmentDirectional.bottomCenter,
     children: [
       Image(
@@ -136,15 +130,13 @@ class ProductsScreen extends StatelessWidget {
           textAlign: TextAlign.center,
           overflow: TextOverflow.ellipsis,
           maxLines: 1,
-          style: const TextStyle(
-              color: Colors.white
-          ),
+          style: const TextStyle(color: Colors.white),
         ),
       ),
     ],
   );
 
-  Widget buildGridProduct(ProductModel model) => Column(
+  Widget buildGridProduct(ProductModel model, BuildContext context) => Column(
     crossAxisAlignment: CrossAxisAlignment.start,
     children: [
       Stack(
@@ -155,13 +147,14 @@ class ProductsScreen extends StatelessWidget {
             width: double.infinity,
             height: 200.0,
           ),
-          if(model.discount != 0)
+          if (model.discount != 0)
             Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(8.0),
                 color: Colors.red,
               ),
-              padding: const EdgeInsets.symmetric(horizontal: 5.0,vertical: 2.0),
+              padding: const EdgeInsets.symmetric(
+                  horizontal: 5.0, vertical: 2.0),
               child: const Text(
                 'DISCOUNT',
                 style: TextStyle(
@@ -193,20 +186,26 @@ class ProductsScreen extends StatelessWidget {
                 const SizedBox(
                   width: 10,
                 ),
-                if(model.discount != 0)
+                if (model.discount != 0)
                   Text(
                     '${model.oldPrice.round()}',
                     style: const TextStyle(
                         fontSize: 12,
                         decoration: TextDecoration.lineThrough,
-                        color: Colors.red
-                    ),
+                        decorationColor: Colors.black,
+                        color: Colors.red),
                   ),
                 const Spacer(),
                 IconButton(
-                  padding: EdgeInsets.zero,
-                  icon: const Icon(Icons.favorite_border,size: 18,),
-                  onPressed: (){},
+                  icon: const CircleAvatar(
+                      radius: 15.0,
+                      backgroundColor: Colors.grey,
+                      child: Icon(
+                        Icons.favorite_border,
+                        size: 18,
+                        color: Colors.white,
+                      )),
+                  onPressed: () {},
                 ),
               ],
             ),
@@ -216,4 +215,3 @@ class ProductsScreen extends StatelessWidget {
     ],
   );
 }
-

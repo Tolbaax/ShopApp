@@ -11,7 +11,7 @@ import 'package:shop_app/shared/styles/themes.dart';
 import 'shared/bloc/bloc_observer.dart';
 
 void main() async {
-  //make sure that everything in methode is finished, then open the app
+  // make sure that everything in methode is finished, then open the app
   WidgetsFlutterBinding.ensureInitialized();
 
   DioHelper.init();
