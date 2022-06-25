@@ -4,6 +4,7 @@ import 'package:shop_app/shared/components/components.dart';
 import 'package:shop_app/shared/network/local/cache_helper.dart';
 import 'package:shop_app/shared/styles/colors.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+
 import '../../models/board_model.dart';
 
 class OnBoardingScreen extends StatefulWidget {
@@ -15,17 +16,15 @@ class OnBoardingScreen extends StatefulWidget {
 class _OnBoardingScreenState extends State<OnBoardingScreen> {
   PageController boardController = PageController();
   bool isLast = false;
-  
-  void submit()
-  {
+
+  void submit() {
     CacheHelper.saveData(key: 'onBoarding', value: true).then((value) {
-      if(value)
-        {
-          navigateAndRemoveUntil(context, LoginScreen());
-        }
+      if (value) {
+        navigateAndRemoveUntil(context, LoginScreen());
+      }
     });
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

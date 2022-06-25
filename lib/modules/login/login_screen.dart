@@ -10,7 +10,6 @@ import 'package:shop_app/shared/components/components.dart';
 import 'package:shop_app/shared/network/local/cache_helper.dart';
 
 class LoginScreen extends StatelessWidget {
-
   TextEditingController emailController = TextEditingController();
 
   TextEditingController passwordController = TextEditingController();
@@ -23,8 +22,8 @@ class LoginScreen extends StatelessWidget {
       create: (BuildContext context) => ShopLoginCubit(),
       child: BlocConsumer<ShopLoginCubit, ShopLoginStates>(
         listener: (context, state) {
-          if(state is ShopLoginSuccessState){
-            if(state.loginModel.status!){
+          if (state is ShopLoginSuccessState) {
+            if (state.loginModel.status!) {
               if (kDebugMode) {
                 print(state.loginModel.message);
               }
@@ -33,23 +32,19 @@ class LoginScreen extends StatelessWidget {
               }
 
               CacheHelper.saveData(
-                  key: 'token',
-                  value: state.loginModel.data!.token
-              ).then((value) {
+                      key: 'token', value: state.loginModel.data!.token)
+                  .then((value) {
                 navigateAndRemoveUntil(context, const ShopLayout());
               });
-
-            }
-            else
-              {
-                if (kDebugMode) {
-                  print(state.loginModel.message);
-                }
-                showToast(
-                    text: state.loginModel.message!,
-                    state: ToastState.error,
-                );
+            } else {
+              if (kDebugMode) {
+                print(state.loginModel.message);
               }
+              showToast(
+                text: state.loginModel.message!,
+                state: ToastState.error,
+              );
+            }
           }
         },
         builder: (context, state) {
@@ -66,7 +61,9 @@ class LoginScreen extends StatelessWidget {
                       children: [
                         Text(
                           'LOGIN',
-                          style: Theme.of(context).textTheme.headline4!
+                          style: Theme.of(context)
+                              .textTheme
+                              .headline4!
                               .copyWith(color: Colors.black),
                         ),
                         const SizedBox(
@@ -74,7 +71,9 @@ class LoginScreen extends StatelessWidget {
                         ),
                         Text(
                           'Login now to browse our hot offers',
-                          style: Theme.of(context).textTheme.bodyText1!
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyText1!
                               .copyWith(color: Colors.grey),
                         ),
                         const SizedBox(
@@ -99,14 +98,13 @@ class LoginScreen extends StatelessWidget {
                             type: TextInputType.visiblePassword,
                             prefix: Icons.lock_outline_rounded,
                             suffix: ShopLoginCubit.get(context).suffix,
-                            isPassword: ShopLoginCubit.get(context).isPassword,
-                            suffixPressed: () {
+                            onTab: () {
                               ShopLoginCubit.get(context)
                                   .changePasswordVisibility();
                             },
-                            onSubmit: (value){
-                              if(formKey.currentState!.validate())
-                              {
+                            isPassword: ShopLoginCubit.get(context).isPassword,
+                            onSubmit: (value) {
+                              if (formKey.currentState!.validate()) {
                                 ShopLoginCubit.get(context).userLogin(
                                     email: emailController.text,
                                     password: passwordController.text);
@@ -127,18 +125,17 @@ class LoginScreen extends StatelessWidget {
                           condition: state is! ShopLoginLoadingState,
                           builder: (context) => defaultButton(
                             function: () {
-                              if(formKey.currentState!.validate())
-                                {
-                                  ShopLoginCubit.get(context).userLogin(
-                                      email: emailController.text,
-                                      password: passwordController.text);
-                                }
+                              if (formKey.currentState!.validate()) {
+                                ShopLoginCubit.get(context).userLogin(
+                                    email: emailController.text,
+                                    password: passwordController.text);
+                              }
                               FocusScope.of(context).unfocus();
                             },
                             text: 'LOGIN',
                           ),
                           fallback: (BuildContext context) =>
-                          const Center(child: CircularProgressIndicator()),
+                              const Center(child: CircularProgressIndicator()),
                         ),
                         const SizedBox(
                           height: 20.0,
@@ -148,12 +145,16 @@ class LoginScreen extends StatelessWidget {
                           children: [
                             const Text(
                               'Don\'t have an account?',
+                              style: TextStyle(fontSize: 17.0),
                             ),
                             TextButton(
                               onPressed: () {
                                 navigateTo(context, const RegisterScreen());
                               },
-                              child: const Text('REGISTER'),
+                              child: const Text(
+                                'REGISTER',
+                                style: TextStyle(fontSize: 17.0),
+                              ),
                             ),
                           ],
                         ),

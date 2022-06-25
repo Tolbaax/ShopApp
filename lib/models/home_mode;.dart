@@ -1,40 +1,27 @@
-
-class HomeModel
-{
+class HomeModel {
   bool? status;
   HomeDataModel? data;
 
-  HomeModel.fromJson(Map<String, dynamic> json)
-  {
+  HomeModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     data = HomeDataModel.fromJson(json['data']);
   }
 }
 
-//========================================================
-
-class HomeDataModel
-{
+class HomeDataModel {
   List<BannerModel> banners = [];
   List<ProductModel> products = [];
 
-  HomeDataModel.fromJson(Map<String, dynamic> json)
-  {
-    json['banners'].forEach((element)
-    {
+  HomeDataModel.fromJson(Map<String, dynamic> json) {
+    json['banners'].forEach((element) {
       banners.add(BannerModel.fromJson(element));
     });
 
-    json['products'].forEach((element)
-    {
+    json['products'].forEach((element) {
       products.add(ProductModel.fromJson(element));
     });
-
   }
-
 }
-
-//=================================================================
 
 class BannerModel {
   int? id;
@@ -45,29 +32,24 @@ class BannerModel {
   }
 }
 
-//===============================================================
-
-class ProductModel
-{
-  int? id;
+class ProductModel {
+  dynamic id;
   dynamic price;
   dynamic oldPrice;
   dynamic discount;
   String? image;
   String? name;
-  bool? inFavorite;
+  bool? inFavorites;
   bool? inCart;
 
-  ProductModel.fromJson(Map<String, dynamic> json)
-  {
+  ProductModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     oldPrice = json['old_price'];
     discount = json['discount'];
     image = json['image'];
     price = json['price'];
-    inFavorite = json['in_favorite'];
+    inFavorites = json['in_favorites'];
     inCart = json['in_cart'];
     name = json['name'];
-
   }
 }
