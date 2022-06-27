@@ -40,3 +40,12 @@ class ShopSuccessUserDataState extends ShopStates {
 }
 
 class ShopErrorUserDataState extends ShopStates {}
+
+class ShopLoadingUpdateUserState extends ShopStates {}
+
+class ShopSuccessUpdateUserState extends ShopStates {
+  ShopLoginModel loginModel;
+  ShopSuccessUpdateUserState({required this.loginModel});
+}
+
+class ShopErrorUpdateUserState extends ShopStates {}

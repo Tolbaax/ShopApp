@@ -1,18 +1,18 @@
-class FavoritesModel {
+class SearchModel {
   bool? status;
   String? message;
-  Data? data;
+  late Data data;
 
-  FavoritesModel.fromJson(Map<String, dynamic> json) {
+  SearchModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
-    data = json['data'] != null ? Data.fromJson(json['data']) : null;
+    data = Data.fromJson(json['data']);
   }
 }
 
 class Data {
   dynamic currentPage;
-  List<FavoritesData>? data;
+  late List<Product> data;
   String? firstPageUrl;
   dynamic from;
   dynamic lastPage;
@@ -27,9 +27,9 @@ class Data {
   Data.fromJson(Map<String, dynamic> json) {
     currentPage = json['current_page'];
     if (json['data'] != null) {
-      data = <FavoritesData>[];
+      data = <Product>[];
       json['data'].forEach((v) {
-        data!.add(FavoritesData.fromJson(v));
+        data.add(Product.fromJson(v));
       });
     }
     firstPageUrl = json['first_page_url'];
@@ -42,16 +42,6 @@ class Data {
     prevPageUrl = json['prev_page_url'];
     to = json['to'];
     total = json['total'];
-  }
-}
-
-class FavoritesData {
-  dynamic id;
-  late Product product;
-
-  FavoritesData.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    product = Product.fromJson(json['product']);
   }
 }
 

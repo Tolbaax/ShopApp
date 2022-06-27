@@ -1,32 +1,37 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shop_app/models/login_model.dart';
-import 'package:shop_app/modules/login/cubit/states.dart';
+import 'package:shop_app/modules/register/cubit/states.dart';
 import 'package:shop_app/shared/network/remote/dio_helper.dart';
 import 'package:shop_app/shared/network/remote/end_points.dart';
 
-class ShopLoginCubit extends Cubit<ShopLoginStates> {
-  ShopLoginCubit() : super(ShopLoginInitialState());
+import '../../../models/login_model.dart';
 
-  static ShopLoginCubit get(context) => BlocProvider.of(context);
+class ShopRegisterCubit extends Cubit<ShopRegisterStates> {
+  ShopRegisterCubit() : super(ShopRegisterInitialState());
+
+  static ShopRegisterCubit get(context) => BlocProvider.of(context);
 
   ShopLoginModel? loginModel;
 
-  void userLogin({
+  void userRegister({
+    required String name,
     required String email,
+    required String phone,
     required String password,
   }) {
-    emit(ShopLoginLoadingState());
+    emit(ShopRegisterLoadingState());
     // post =>> create user
-    DioHelper.postData(url: LOGIN, data: {
+    DioHelper.postData(url: REGISTER, data: {
+      'name': name,
       'email': email,
+      'phone': phone,
       'password': password,
     }).then((value) {
       loginModel = ShopLoginModel.fromJson(value.data);
-      emit(ShopLoginSuccessState(loginModel: loginModel!));
+      emit(ShopRegisterSuccessState(loginModel: loginModel!));
     }).catchError((error) {
-      emit(ShopLoginErrorState(error.toString()));
+      emit(ShopRegisterErrorState(error.toString()));
       if (kDebugMode) {
         print(error.toString());
       }
@@ -42,7 +47,7 @@ class ShopLoginCubit extends Cubit<ShopLoginStates> {
     isPassword = !isPassword;
     suffix =
         isPassword ? Icons.visibility_outlined : Icons.visibility_off_outlined;
-    emit(ShopChangePasswordVisibilityState());
+    emit(ShopRegisterChangePasswordVisibilityState());
   }
 
   //=================================================

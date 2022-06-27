@@ -1,6 +1,8 @@
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_app/shared/bloc/cubit/cubit.dart';
+import 'package:shop_app/shared/components/constants.dart';
 
 import '../../shared/bloc/cubit/states.dart';
 import '../../shared/components/components.dart';
@@ -13,6 +15,7 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
+  var formKey = GlobalKey<FormState>();
   var nameController = TextEditingController();
   var emailController = TextEditingController();
   var phoneController = TextEditingController();
@@ -20,60 +23,119 @@ class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ShopCubit, ShopStates>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if (state is ShopSuccessUpdateUserState) {
+          if (state.loginModel.status!) {
+            FocusScope.of(context).unfocus();
+            showToast(
+              text: state.loginModel.message!,
+              state: ToastState.success,
+            );
+          } else {
+            showToast(
+              text: state.loginModel.message!,
+              state: ToastState.error,
+            );
+          }
+        }
+      },
       builder: (context, state) {
-        // var model = ShopCubit.get(context).userModel;
-        // nameController.text = model!.data!.name!;
-        // emailController.text = model.data!.email!;
-        // phoneController.text = model.data!.phone!;
-        return Padding(
-          padding: const EdgeInsetsDirectional.all(20.0),
-          child: Column(
-            children: [
-              defaultFormField(
-                controller: nameController,
-                type: TextInputType.name,
-                validate: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please Enter Your Name';
-                  }
-                  return null;
-                },
-                prefix: Icons.person,
-                label: 'Name',
+        var model = ShopCubit.get(context).userModel;
+        nameController.text = model!.data.name;
+        emailController.text = model.data.email;
+        phoneController.text = model.data.phone;
+        return BlocConsumer<ShopCubit, ShopStates>(
+          listener: (context, state) {},
+          builder: (context, state) {
+            return ConditionalBuilder(
+              condition: state is! ShopLoadingUserDataState,
+              builder: (context) => Padding(
+                padding: const EdgeInsetsDirectional.all(20.0),
+                child: Form(
+                  key: formKey,
+                  child: Column(
+                    children: [
+                      if (state is ShopLoadingUpdateUserState)
+                        const LinearProgressIndicator(),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      defaultFormField(
+                        controller: nameController,
+                        type: TextInputType.name,
+                        validate: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please Enter Your Name';
+                          }
+                          return null;
+                        },
+                        prefix: Icons.person,
+                        label: 'Name',
+                      ),
+                      const SizedBox(
+                        height: 20.0,
+                      ),
+                      defaultFormField(
+                        controller: emailController,
+                        type: TextInputType.emailAddress,
+                        validate: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please Enter Your Email';
+                          }
+                          return null;
+                        },
+                        prefix: Icons.email,
+                        label: 'Email',
+                      ),
+                      const SizedBox(
+                        height: 20.0,
+                      ),
+                      defaultFormField(
+                        controller: phoneController,
+                        type: TextInputType.phone,
+                        validate: (value) {
+                          if (value!.isEmpty) {
+                            return 'Please Enter Your Phone Number';
+                          }
+                          return null;
+                        },
+                        prefix: Icons.phone,
+                        label: 'Phone',
+                      ),
+                      const SizedBox(
+                        height: 30.0,
+                      ),
+                      defaultButton(
+                        function: () {
+                          if (formKey.currentState!.validate()) {
+                            ShopCubit.get(context).updateUserData(
+                              name: nameController.text,
+                              email: emailController.text,
+                              phone: phoneController.text,
+                            );
+                            return null;
+                          }
+                        },
+                        text: 'UPDATE',
+                      ),
+                      const SizedBox(
+                        height: 20.0,
+                      ),
+                      defaultButton(
+                        function: () {
+                          signOut(context);
+                        },
+                        text: 'LOGOUT',
+                      ),
+                    ],
+                  ),
+                ),
               ),
-              const SizedBox(
-                height: 20.0,
+              fallback: (context) => const Center(
+                child: CircularProgressIndicator(),
               ),
-              defaultFormField(
-                controller: emailController,
-                type: TextInputType.emailAddress,
-                validate: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please Enter Your Email';
-                  }
-                  return null;
-                },
-                prefix: Icons.email,
-                label: 'Email',
-              ),
-              const SizedBox(
-                height: 20.0,
-              ),
-              defaultFormField(
-                controller: phoneController,
-                type: TextInputType.phone,
-                validate: (value) {
-                  if (value!.isEmpty) {
-                    return 'Please Enter Your Phone Number';
-                  }
-                  return null;
-                },
-                prefix: Icons.phone,
-                label: 'Phone',
-              ),
-            ],
-          ),
+            );
+          },
         );
       },
     );

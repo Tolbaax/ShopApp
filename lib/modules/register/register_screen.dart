@@ -1,27 +1,29 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shop_app/layout/shop_layout.dart';
-import 'package:shop_app/modules/login/cubit/cubit.dart';
-import 'package:shop_app/modules/login/cubit/states.dart';
-import 'package:shop_app/shared/components/components.dart';
-import 'package:shop_app/shared/network/local/cache_helper.dart';
+import 'package:shop_app/modules/login/login_screen.dart';
 
+import '../../layout/shop_layout.dart';
+import '../../shared/components/components.dart';
 import '../../shared/components/constants.dart';
-import '../register/register_screen.dart';
+import '../../shared/network/local/cache_helper.dart';
+import 'cubit/cubit.dart';
+import 'cubit/states.dart';
 
-class LoginScreen extends StatelessWidget {
-  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+class RegisterScreen extends StatelessWidget {
+  var formKey = GlobalKey<FormState>();
+  var nameController = TextEditingController();
   var emailController = TextEditingController();
+  var phoneController = TextEditingController();
   var passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (BuildContext context) => ShopLoginCubit(),
-      child: BlocConsumer<ShopLoginCubit, ShopLoginStates>(
+      create: (BuildContext context) => ShopRegisterCubit(),
+      child: BlocConsumer<ShopRegisterCubit, ShopRegisterStates>(
         listener: (context, state) {
-          if (state is ShopLoginSuccessState) {
+          if (state is ShopRegisterSuccessState) {
             if (state.loginModel.status!) {
               CacheHelper.saveData(
                 key: 'token',
@@ -51,7 +53,7 @@ class LoginScreen extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'LOGIN',
+                          'REGISTER',
                           style: Theme.of(context)
                               .textTheme
                               .headline4!
@@ -61,7 +63,7 @@ class LoginScreen extends StatelessWidget {
                           height: 20,
                         ),
                         Text(
-                          'Login now to browse our hot offers',
+                          'Register now to browse our hot offers',
                           style: Theme.of(context)
                               .textTheme
                               .bodyText1!
@@ -69,6 +71,20 @@ class LoginScreen extends StatelessWidget {
                         ),
                         const SizedBox(
                           height: 40,
+                        ),
+                        defaultFormField(
+                            controller: nameController,
+                            type: TextInputType.name,
+                            prefix: Icons.person,
+                            label: 'Name',
+                            validate: (value) {
+                              if (value!.isEmpty) {
+                                return 'Please Enter Your Name';
+                              }
+                              return null;
+                            }),
+                        const SizedBox(
+                          height: 25.0,
                         ),
                         defaultFormField(
                             controller: emailController,
@@ -82,26 +98,19 @@ class LoginScreen extends StatelessWidget {
                               return null;
                             }),
                         const SizedBox(
-                          height: 20.0,
+                          height: 25.0,
                         ),
                         defaultFormField(
                             controller: passwordController,
                             type: TextInputType.visiblePassword,
                             prefix: Icons.lock_outline_rounded,
-                            suffix: ShopLoginCubit.get(context).suffix,
+                            suffix: ShopRegisterCubit.get(context).suffix,
                             onTab: () {
-                              ShopLoginCubit.get(context)
+                              ShopRegisterCubit.get(context)
                                   .changePasswordVisibility();
                             },
-                            isPassword: ShopLoginCubit.get(context).isPassword,
-                            onSubmit: (value) {
-                              if (formKey.currentState!.validate()) {
-                                ShopLoginCubit.get(context).userLogin(
-                                    email: emailController.text,
-                                    password: passwordController.text);
-                              }
-                              return null;
-                            },
+                            isPassword:
+                                ShopRegisterCubit.get(context).isPassword,
                             label: 'Password',
                             validate: (value) {
                               if (value!.isEmpty) {
@@ -110,20 +119,37 @@ class LoginScreen extends StatelessWidget {
                               return null;
                             }),
                         const SizedBox(
+                          height: 25.0,
+                        ),
+                        defaultFormField(
+                            controller: phoneController,
+                            type: TextInputType.phone,
+                            prefix: Icons.phone,
+                            label: 'Phone',
+                            validate: (value) {
+                              if (value!.isEmpty) {
+                                return 'Please Enter Your Phone';
+                              }
+                              return null;
+                            }),
+                        const SizedBox(
                           height: 30.0,
                         ),
                         ConditionalBuilder(
-                          condition: state is! ShopLoginLoadingState,
+                          condition: state is! ShopRegisterLoadingState,
                           builder: (context) => defaultButton(
                             function: () {
                               if (formKey.currentState!.validate()) {
-                                ShopLoginCubit.get(context).userLogin(
-                                    email: emailController.text,
-                                    password: passwordController.text);
+                                ShopRegisterCubit.get(context).userRegister(
+                                  name: nameController.text,
+                                  email: emailController.text,
+                                  phone: phoneController.text,
+                                  password: passwordController.text,
+                                );
                               }
                               FocusScope.of(context).unfocus();
                             },
-                            text: 'LOGIN',
+                            text: 'REGISTER',
                           ),
                           fallback: (BuildContext context) =>
                               const Center(child: CircularProgressIndicator()),
@@ -135,15 +161,18 @@ class LoginScreen extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             const Text(
-                              'Don\'t have an account?',
+                              'Already have an account?',
                               style: TextStyle(fontSize: 17.0),
                             ),
                             TextButton(
                               onPressed: () {
-                                navigateTo(context, RegisterScreen());
+                                navigateTo(
+                                  context,
+                                  LoginScreen(),
+                                );
                               },
                               child: const Text(
-                                'REGISTER',
+                                'LOGIN',
                                 style: TextStyle(fontSize: 17.0),
                               ),
                             ),

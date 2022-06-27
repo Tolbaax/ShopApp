@@ -27,10 +27,6 @@ void main() async {
 
   token = CacheHelper.getData(key: 'token');
 
-  if (kDebugMode) {
-    print(token);
-  }
-
   if (onBoarding != null) {
     if (token != null) {
       widget = const ShopLayout();
@@ -40,7 +36,6 @@ void main() async {
   } else {
     widget = const OnBoardingScreen();
   }
-
   BlocOverrides.runZoned(
     () {
       // Use blocs...
@@ -54,19 +49,20 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  final Widget startWidget;
-  const MyApp({Key? key, required this.startWidget}) : super(key: key);
+  Widget? startWidget;
+  MyApp({Key? key, this.startWidget}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-            create: (context) => ShopCubit()
-              ..getHomeData()
-              ..getCategories()
-              ..getFavorites()
-              ..getUserData()),
+          create: (context) => ShopCubit()
+            ..getHomeData()
+            ..getCategories()
+            ..getFavorites()
+            ..getUserData(),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
