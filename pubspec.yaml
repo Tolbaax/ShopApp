@@ -33,6 +33,8 @@ dependencies:
   fluttertoast: ^8.0.9
   shared_preferences: ^2.0.14
   carousel_slider: ^4.1.1
+  convex_bottom_bar: ^3.0.0
+  bottom_navy_bar: ^6.0.0
   flutter_conditional_rendering:
 
 dev_dependencies:

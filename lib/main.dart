@@ -29,7 +29,7 @@ void main() async {
 
   if (onBoarding != null) {
     if (token != null) {
-      widget = const ShopLayout();
+      widget = ShopLayout();
     } else {
       widget = LoginScreen();
     }

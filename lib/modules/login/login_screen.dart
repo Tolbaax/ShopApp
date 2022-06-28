@@ -28,7 +28,7 @@ class LoginScreen extends StatelessWidget {
                 value: state.loginModel.data.token,
               ).then((value) {
                 token = state.loginModel.data.token;
-                navigateAndRemoveUntil(context, const ShopLayout());
+                navigateAndRemoveUntil(context, ShopLayout());
               });
             } else {
               showToast(
