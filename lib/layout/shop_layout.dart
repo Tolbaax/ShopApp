@@ -53,8 +53,8 @@ class ShopLayout extends StatelessWidget {
             showElevation: true,
             itemCornerRadius: 24,
             selectedIndex: cubit.currentIndex,
-            curve: Curves.easeIn,
-            iconSize: 24.0,
+            curve: Curves.ease,
+            iconSize: 26.0,
             onItemSelected: (int index) {
               cubit.changeBottom(index);
               pageController.animateToPage(
@@ -68,26 +68,30 @@ class ShopLayout extends StatelessWidget {
                 icon: const Icon(Icons.apps),
                 title: const Text('Home'),
                 activeColor: Colors.red,
+                inactiveColor: Colors.grey,
                 textAlign: TextAlign.center,
               ),
               BottomNavyBarItem(
                 icon: const Icon(Icons.category_outlined),
                 title: const Text('Categories'),
                 activeColor: Colors.purpleAccent,
+                inactiveColor: Colors.grey,
                 textAlign: TextAlign.center,
               ),
               BottomNavyBarItem(
-                icon: const Icon(Icons.favorite_rounded),
+                icon: const Icon(Icons.favorite_outline_sharp),
                 title: const Text(
                   'Favorites',
                 ),
                 activeColor: Colors.pink,
+                inactiveColor: Colors.grey,
                 textAlign: TextAlign.center,
               ),
               BottomNavyBarItem(
-                icon: const Icon(Icons.settings),
+                icon: const Icon(Icons.settings_outlined),
                 title: const Text('Settings'),
                 activeColor: Colors.blue,
+                inactiveColor: Colors.grey,
                 textAlign: TextAlign.center,
               ),
             ],

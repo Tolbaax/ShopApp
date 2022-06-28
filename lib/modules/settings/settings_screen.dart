@@ -1,11 +1,10 @@
-import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_app/shared/bloc/cubit/cubit.dart';
-import 'package:shop_app/shared/components/constants.dart';
+import 'package:shop_app/shared/bloc/cubit/states.dart';
+import 'package:shop_app/shared/components/components.dart';
 
-import '../../shared/bloc/cubit/states.dart';
-import '../../shared/components/components.dart';
+import 'edit_Profile.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({Key? key}) : super(key: key);
@@ -15,127 +14,180 @@ class SettingsScreen extends StatefulWidget {
 }
 
 class _SettingsScreenState extends State<SettingsScreen> {
-  var formKey = GlobalKey<FormState>();
-  var nameController = TextEditingController();
-  var emailController = TextEditingController();
-  var phoneController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ShopCubit, ShopStates>(
-      listener: (context, state) {
-        if (state is ShopSuccessUpdateUserState) {
-          if (state.loginModel.status!) {
-            FocusScope.of(context).unfocus();
-            showToast(
-              text: state.loginModel.message!,
-              state: ToastState.success,
-            );
-          } else {
-            showToast(
-              text: state.loginModel.message!,
-              state: ToastState.error,
-            );
-          }
-        }
-      },
+      listener: (context, state) {},
       builder: (context, state) {
-        var model = ShopCubit.get(context).userModel;
-        nameController.text = model!.data.name;
-        emailController.text = model.data.email;
-        phoneController.text = model.data.phone;
-        return BlocConsumer<ShopCubit, ShopStates>(
-          listener: (context, state) {},
-          builder: (context, state) {
-            return ConditionalBuilder(
-              condition: state is! ShopLoadingUserDataState,
-              builder: (context) => Padding(
-                padding: const EdgeInsetsDirectional.all(20.0),
-                child: Form(
-                  key: formKey,
-                  child: Column(
-                    children: [
-                      if (state is ShopLoadingUpdateUserState)
-                        const LinearProgressIndicator(),
-                      const SizedBox(
-                        height: 20,
+        return Scaffold(
+          body: Padding(
+            padding: const EdgeInsetsDirectional.all(20.0),
+            child: Column(
+              children: [
+                Row(
+                  children: const [
+                    Icon(
+                      Icons.person_outline,
+                      size: 28,
+                    ),
+                    SizedBox(
+                      width: 10.0,
+                    ),
+                    Text(
+                      'Account',
+                      style: TextStyle(
+                        fontSize: 22.0,
+                        fontWeight: FontWeight.w500,
                       ),
-                      defaultFormField(
-                        controller: nameController,
-                        type: TextInputType.name,
-                        validate: (value) {
-                          if (value!.isEmpty) {
-                            return 'Please Enter Your Name';
-                          }
-                          return null;
-                        },
-                        prefix: Icons.person,
-                        label: 'Name',
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 10.0,
+                ),
+                const Divider(
+                  thickness: 1,
+                ),
+                ListTile(
+                  leading: const Text(
+                    'Edit Profile',
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      color: Colors.grey,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  trailing: const Icon(Icons.arrow_forward_ios_rounded),
+                  onTap: () {
+                    navigateTo(context, EditProfileScreen());
+                  },
+                ),
+                const ListTile(
+                  leading: Text(
+                    'Change Password',
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      color: Colors.grey,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  trailing: Icon(Icons.arrow_forward_ios_rounded),
+                ),
+                const ListTile(
+                  leading: Text(
+                    'Privacy',
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      color: Colors.grey,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  trailing: Icon(Icons.arrow_forward_ios_rounded),
+                ),
+                const SizedBox(
+                  height: 30.0,
+                ),
+                Row(
+                  children: const [
+                    Icon(
+                      Icons.graphic_eq,
+                      size: 28,
+                    ),
+                    SizedBox(
+                      width: 10.0,
+                    ),
+                    Text(
+                      'General',
+                      style: TextStyle(
+                        fontSize: 22.0,
+                        fontWeight: FontWeight.w500,
                       ),
-                      const SizedBox(
-                        height: 20.0,
-                      ),
-                      defaultFormField(
-                        controller: emailController,
-                        type: TextInputType.emailAddress,
-                        validate: (value) {
-                          if (value!.isEmpty) {
-                            return 'Please Enter Your Email';
-                          }
-                          return null;
-                        },
-                        prefix: Icons.email,
-                        label: 'Email',
-                      ),
-                      const SizedBox(
-                        height: 20.0,
-                      ),
-                      defaultFormField(
-                        controller: phoneController,
-                        type: TextInputType.phone,
-                        validate: (value) {
-                          if (value!.isEmpty) {
-                            return 'Please Enter Your Phone Number';
-                          }
-                          return null;
-                        },
-                        prefix: Icons.phone,
-                        label: 'Phone',
-                      ),
-                      const SizedBox(
-                        height: 30.0,
-                      ),
-                      defaultButton(
-                        function: () {
-                          if (formKey.currentState!.validate()) {
-                            ShopCubit.get(context).updateUserData(
-                              name: nameController.text,
-                              email: emailController.text,
-                              phone: phoneController.text,
-                            );
-                            return null;
-                          }
-                        },
-                        text: 'UPDATE',
-                      ),
-                      const SizedBox(
-                        height: 20.0,
-                      ),
-                      defaultButton(
-                        function: () {
-                          signOut(context);
-                        },
-                        text: 'LOGOUT',
-                      ),
-                    ],
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 10.0,
+                ),
+                const Divider(
+                  thickness: 1,
+                ),
+                ListTile(
+                  leading: const Text(
+                    'Dark Mode',
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      color: Colors.grey,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  trailing: Switch(
+                    value: ShopCubit.get(context).isDark,
+                    onChanged: (value) {
+                      ShopCubit.get(context).changeTheme(value);
+                    },
                   ),
                 ),
-              ),
-              fallback: (context) => const Center(
-                child: CircularProgressIndicator(),
-              ),
-            );
-          },
+                ListTile(
+                  leading: const Text(
+                    'Notifications',
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      color: Colors.grey,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  trailing: Switch(
+                    value: ShopCubit.get(context).isNotify,
+                    onChanged: (value) {
+                      ShopCubit.get(context).changeNotification(value);
+                    },
+                  ),
+                ),
+                const ListTile(
+                  leading: Text(
+                    'Language',
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      color: Colors.grey,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  trailing: Icon(Icons.arrow_forward_ios_rounded),
+                ),
+                const ListTile(
+                  leading: Text(
+                    'Country',
+                    style: TextStyle(
+                      fontSize: 20.0,
+                      color: Colors.grey,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  trailing: Icon(Icons.arrow_forward_ios_rounded),
+                ),
+                const Spacer(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: const [
+                    Icon(
+                      Icons.logout,
+                      size: 25,
+                    ),
+                    SizedBox(
+                      width: 10.0,
+                    ),
+                    Text(
+                      'LOGOUT',
+                      style: TextStyle(
+                          fontSize: 20.0,
+                          color: Colors.grey,
+                          fontWeight: FontWeight.w500),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
         );
       },
     );

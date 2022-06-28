@@ -35,6 +35,20 @@ class ShopCubit extends Cubit<ShopStates> {
     emit(ShopChangeBottomNav());
   }
 
+  ///Change To Dark Mode
+  bool isDark = false;
+  void changeTheme(value) {
+    isDark = !isDark;
+    emit(ShopChangeTheme());
+  }
+
+  ///Change Notifications
+  bool isNotify = false;
+  void changeNotification(value) {
+    isNotify = !isNotify;
+    emit(ShopChangeNotification());
+  }
+
   ///Get Home Data
   HomeModel? homeModel;
   Map<int, dynamic> favorites = {};
