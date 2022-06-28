@@ -1,3 +1,4 @@
+import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_app/shared/bloc/cubit/cubit.dart';
@@ -48,35 +49,13 @@ class ShopLayout extends StatelessWidget {
               cubit.changeBottom(newIndex);
             },
           ),
-          bottomNavigationBar: BottomNavigationBar(
-            currentIndex: cubit.currentIndex,
-            items: const [
-              BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.home,
-                ),
-                label: 'Home',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.apps,
-                ),
-                label: 'Categories',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.favorite,
-                ),
-                label: 'Favorites',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(
-                  Icons.settings,
-                ),
-                label: 'Settings',
-              ),
-            ],
-            onTap: (index) {
+          bottomNavigationBar: BottomNavyBar(
+            showElevation: true,
+            itemCornerRadius: 24,
+            selectedIndex: cubit.currentIndex,
+            curve: Curves.easeIn,
+            iconSize: 24.0,
+            onItemSelected: (int index) {
               cubit.changeBottom(index);
               pageController.animateToPage(
                 index,
@@ -84,6 +63,34 @@ class ShopLayout extends StatelessWidget {
                 curve: Curves.ease,
               );
             },
+            items: <BottomNavyBarItem>[
+              BottomNavyBarItem(
+                icon: const Icon(Icons.apps),
+                title: const Text('Home'),
+                activeColor: Colors.red,
+                textAlign: TextAlign.center,
+              ),
+              BottomNavyBarItem(
+                icon: const Icon(Icons.category_outlined),
+                title: const Text('Categories'),
+                activeColor: Colors.purpleAccent,
+                textAlign: TextAlign.center,
+              ),
+              BottomNavyBarItem(
+                icon: const Icon(Icons.favorite_rounded),
+                title: const Text(
+                  'Favorites',
+                ),
+                activeColor: Colors.pink,
+                textAlign: TextAlign.center,
+              ),
+              BottomNavyBarItem(
+                icon: const Icon(Icons.settings),
+                title: const Text('Settings'),
+                activeColor: Colors.blue,
+                textAlign: TextAlign.center,
+              ),
+            ],
           ),
         );
       },
