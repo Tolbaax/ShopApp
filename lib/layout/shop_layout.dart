@@ -60,7 +60,7 @@ class ShopLayout extends StatelessWidget {
               pageController.animateToPage(
                 index,
                 duration: const Duration(microseconds: 500),
-                curve: Curves.ease,
+                curve: Curves.easeIn,
               );
             },
             items: <BottomNavyBarItem>[
