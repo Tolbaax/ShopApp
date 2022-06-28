@@ -89,7 +89,7 @@ class LoginScreen extends StatelessWidget {
                             type: TextInputType.visiblePassword,
                             prefix: Icons.lock_outline_rounded,
                             suffix: ShopLoginCubit.get(context).suffix,
-                            onTab: () {
+                            suffixTab: () {
                               ShopLoginCubit.get(context)
                                   .changePasswordVisibility();
                             },

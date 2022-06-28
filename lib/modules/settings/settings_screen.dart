@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_app/shared/bloc/cubit/cubit.dart';
 import 'package:shop_app/shared/bloc/cubit/states.dart';
 import 'package:shop_app/shared/components/components.dart';
+import 'package:shop_app/shared/components/constants.dart';
 
 import 'edit_Profile.dart';
 
@@ -25,15 +26,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
             child: Column(
               children: [
                 Row(
-                  children: const [
-                    Icon(
+                  children: [
+                    const Icon(
                       Icons.person_outline,
                       size: 28,
                     ),
                     SizedBox(
-                      width: 10.0,
+                      width: MediaQuery.of(context).size.width * 0.02,
                     ),
-                    Text(
+                    const Text(
                       'Account',
                       style: TextStyle(
                         fontSize: 22.0,
@@ -84,19 +85,19 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   ),
                   trailing: Icon(Icons.arrow_forward_ios_rounded),
                 ),
-                const SizedBox(
-                  height: 30.0,
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.035,
                 ),
                 Row(
-                  children: const [
-                    Icon(
+                  children: [
+                    const Icon(
                       Icons.graphic_eq,
                       size: 28,
                     ),
                     SizedBox(
-                      width: 10.0,
+                      width: MediaQuery.of(context).size.width * 0.02,
                     ),
-                    Text(
+                    const Text(
                       'General',
                       style: TextStyle(
                         fontSize: 22.0,
@@ -168,20 +169,53 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 const Spacer(),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Icon(
+                  children: [
+                    const Icon(
                       Icons.logout,
                       size: 25,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 10.0,
                     ),
-                    Text(
-                      'LOGOUT',
-                      style: TextStyle(
-                          fontSize: 20.0,
-                          color: Colors.grey,
-                          fontWeight: FontWeight.w500),
+                    GestureDetector(
+                      onTap: () {
+                        showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: Text(
+                                'LOGOUT',
+                                style: TextStyle(
+                                  color: Colors.red.shade700,
+                                ),
+                              ),
+                              content: const Text('Are you sure want to exit?'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                  child: const Text('No'),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    signOut(context);
+                                  },
+                                  child: const Text('Yes'),
+                                ),
+                              ],
+                              elevation: 0.0,
+                            );
+                          },
+                        );
+                      },
+                      child: const Text(
+                        'LOGOUT',
+                        style: TextStyle(
+                            fontSize: 20.0,
+                            color: Colors.grey,
+                            fontWeight: FontWeight.w500),
+                      ),
                     ),
                   ],
                 ),

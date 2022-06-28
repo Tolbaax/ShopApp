@@ -105,7 +105,7 @@ class RegisterScreen extends StatelessWidget {
                             type: TextInputType.visiblePassword,
                             prefix: Icons.lock_outline_rounded,
                             suffix: ShopRegisterCubit.get(context).suffix,
-                            onTab: () {
+                            suffixTab: () {
                               ShopRegisterCubit.get(context)
                                   .changePasswordVisibility();
                             },

@@ -7,13 +7,13 @@ import '../bloc/cubit/cubit.dart';
 Widget defaultFormField({
   String? Function(String?)? onChange,
   String? Function(String?)? onSubmit,
+  required String? Function(String?)? validate,
   required TextEditingController controller,
   required TextInputType type,
-  required String? Function(String?)? validate,
+  required String label,
   required IconData prefix,
   IconData? suffix,
-  required String label,
-  Function()? onTab,
+  Function()? suffixTab,
   bool isPassword = false,
 }) =>
     TextFormField(
@@ -24,7 +24,6 @@ Widget defaultFormField({
       onChanged: onChange,
       obscureText: isPassword,
       style: const TextStyle(fontWeight: FontWeight.w500),
-      onTap: onTab,
       decoration: InputDecoration(
         labelText: label,
         prefixIcon: Icon(
@@ -32,10 +31,9 @@ Widget defaultFormField({
         ),
         suffixIcon: (suffix != null)
             ? InkWell(
-                onTap: onTab,
+                onTap: suffixTab,
                 child: Icon(
                   suffix,
-                  color: defaultColor,
                 ),
               )
             : null,

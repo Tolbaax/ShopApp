@@ -19,8 +19,9 @@ class SearchScreen extends StatelessWidget {
           SearchCubit searchCubit = SearchCubit.get(context);
           return Scaffold(
             appBar: AppBar(
-                title: const Text(
-                  'Search New Items',
+                title: Text(
+                  'Find New Products..',
+                  style: TextStyle(color: Colors.grey.shade600),
                   maxLines: 1,
                 ),
                 leading: IconButton(
@@ -50,6 +51,11 @@ class SearchScreen extends StatelessWidget {
                         return null;
                       },
                       prefix: Icons.search,
+                      suffix:
+                          searchController.text.isNotEmpty ? Icons.clear : null,
+                      suffixTab: () {
+                        searchController.clear();
+                      },
                       label: 'Search',
                     ),
                     const SizedBox(

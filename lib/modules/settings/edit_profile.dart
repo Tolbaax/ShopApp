@@ -39,8 +39,13 @@ class EditProfileScreen extends StatelessWidget {
         phoneController.text = model.data.phone;
         return Scaffold(
           appBar: AppBar(
-              title: Text(
-                  "Welcome ${model.data.name.split(" ").elementAt(0)} ..👋",maxLines: 1,),
+              title: Center(
+                child: Text(
+                  "Welcome ${model.data.name.split(" ").elementAt(0)}...",
+                  maxLines: 1,
+                  style: TextStyle(color: Colors.grey.shade600),
+                ),
+              ),
               leading: IconButton(
                 icon: const Icon(
                   Icons.arrow_back_ios_new_outlined,
