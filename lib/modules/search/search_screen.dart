@@ -3,7 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_app/modules/search/cubit/cubit.dart';
 import 'package:shop_app/modules/search/cubit/states.dart';
 import 'package:shop_app/shared/components/components.dart';
-import 'package:shop_app/shared/styles/colors.dart';
+
+import '../../shared/styles/colors.dart';
 
 class SearchScreen extends StatelessWidget {
   var formKey = GlobalKey<FormState>();
@@ -19,18 +20,19 @@ class SearchScreen extends StatelessWidget {
           SearchCubit searchCubit = SearchCubit.get(context);
           return Scaffold(
             appBar: AppBar(
-                title: Text(
-                  'Find New Products..',
-                  style: TextStyle(color: Colors.grey.shade600),
-                  maxLines: 1,
+              title: Text(
+                'Find New Products..',
+                style: TextStyle(color: Colors.grey.shade600),
+                maxLines: 1,
+              ),
+              leading: IconButton(
+                icon: const Icon(
+                  Icons.arrow_back_ios_new_outlined,
+                  color: defaultColor,
                 ),
-                leading: IconButton(
-                  icon: const Icon(
-                    Icons.arrow_back_ios_new_outlined,
-                    color: defaultColor,
-                  ),
-                  onPressed: () => Navigator.of(context).pop(),
-                )),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+            ),
             body: Form(
               key: formKey,
               child: Padding(

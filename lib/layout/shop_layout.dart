@@ -1,6 +1,7 @@
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shop_app/modules/cart/cart_screen.dart';
 import 'package:shop_app/shared/bloc/cubit/cubit.dart';
 import 'package:shop_app/shared/bloc/cubit/states.dart';
 
@@ -34,6 +35,15 @@ class ShopLayout extends StatelessWidget {
                   );
                 },
                 icon: const Icon(Icons.search),
+              ),
+              IconButton(
+                onPressed: () {
+                  navigateTo(
+                    context,
+                    const CartScreen(),
+                  );
+                },
+                icon: const Icon(Icons.shopping_cart_outlined),
               ),
             ],
           ),

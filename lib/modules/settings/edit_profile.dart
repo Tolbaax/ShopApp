@@ -39,20 +39,19 @@ class EditProfileScreen extends StatelessWidget {
         phoneController.text = model.data.phone;
         return Scaffold(
           appBar: AppBar(
-              title: Center(
-                child: Text(
-                  "Welcome ${model.data.name.split(" ").elementAt(0)}...",
-                  maxLines: 1,
-                  style: TextStyle(color: Colors.grey.shade600),
-                ),
+            title: Text(
+              "Welcome ${model.data.name.split(" ").elementAt(0)}...",
+              maxLines: 1,
+              style: TextStyle(color: Colors.grey.shade600),
+            ),
+            leading: IconButton(
+              icon: const Icon(
+                Icons.arrow_back_ios_new_outlined,
+                color: defaultColor,
               ),
-              leading: IconButton(
-                icon: const Icon(
-                  Icons.arrow_back_ios_new_outlined,
-                  color: defaultColor,
-                ),
-                onPressed: () => Navigator.of(context).pop(),
-              )),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+          ),
           body: ConditionalBuilder(
             condition: state is! ShopLoadingUserDataState,
             builder: (context) => Padding(

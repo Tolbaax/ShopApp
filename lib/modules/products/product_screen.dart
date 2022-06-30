@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_app/models/categories_model.dart';
 import 'package:shop_app/models/home_mode;.dart';
+import 'package:shop_app/modules/product_details/Produc_details_screen.dart';
 import 'package:shop_app/shared/bloc/cubit/cubit.dart';
 import 'package:shop_app/shared/bloc/cubit/states.dart';
 import 'package:shop_app/shared/components/components.dart';
@@ -46,94 +47,101 @@ class ProductsScreen extends StatelessWidget {
       HomeModel homeModel, CategoriesModel categoriesModel, context) {
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsetsDirectional.all(15.0),
-            child: CarouselSlider(
-              items: homeModel.data!.banners
-                  .map(
-                    (e) => Container(
-                      decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.only(
-                            bottomLeft: Radius.circular(10),
-                            topLeft: Radius.circular(10),
-                            bottomRight: Radius.circular(10),
-                            topRight: Radius.circular(10),
-                          ),
-                          image: DecorationImage(
-                            image: NetworkImage('${e.image}'),
-                            fit: BoxFit.cover,
-                          )),
-                    ),
-                  )
-                  .toList(),
-              options: CarouselOptions(
-                height: MediaQuery.of(context).size.height * 0.26,
-                autoPlay: true,
-                aspectRatio: 1.0,
-                enlargeCenterPage: true,
-                enlargeStrategy: CenterPageEnlargeStrategy.scale,
+      child: GestureDetector(
+        onTap: () {
+          navigateTo(context, ProductDetailsScreen());
+        },
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsetsDirectional.all(15.0),
+              child: CarouselSlider(
+                items: homeModel.data!.banners
+                    .map(
+                      (e) => Container(
+                        decoration: BoxDecoration(
+                            borderRadius: const BorderRadius.only(
+                              bottomLeft: Radius.circular(10),
+                              topLeft: Radius.circular(10),
+                              bottomRight: Radius.circular(10),
+                              topRight: Radius.circular(10),
+                            ),
+                            image: DecorationImage(
+                              image: NetworkImage('${e.image}'),
+                              fit: BoxFit.cover,
+                            )),
+                      ),
+                    )
+                    .toList(),
+                options: CarouselOptions(
+                  height: MediaQuery.of(context).size.height * 0.26,
+                  autoPlay: true,
+                  aspectRatio: 1.0,
+                  enlargeCenterPage: true,
+                  enlargeStrategy: CenterPageEnlargeStrategy.scale,
+                ),
               ),
             ),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 10.0,
+            const SizedBox(
+              height: 10,
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const Text(
-                  'Categories',
-                  style: TextStyle(fontSize: 26.0, fontWeight: FontWeight.w800),
-                ),
-                const SizedBox(
-                  height: 15.0,
-                ),
-                SizedBox(
-                  height: 100.0,
-                  child: ListView.separated(
-                      physics: const BouncingScrollPhysics(),
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) => buildCategoryItem(
-                          categoriesModel.data!.data[index], context),
-                      separatorBuilder: (context, index) => const SizedBox(
-                            width: 10.0,
-                          ),
-                      itemCount: categoriesModel.data!.data.length),
-                ),
-                const SizedBox(
-                  height: 30.0,
-                ),
-                const Text(
-                  'New Products',
-                  style: TextStyle(fontSize: 26.0, fontWeight: FontWeight.w800),
-                ),
-                const SizedBox(
-                  height: 10.0,
-                ),
-              ],
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 10.0,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Categories',
+                    style:
+                        TextStyle(fontSize: 26.0, fontWeight: FontWeight.w800),
+                  ),
+                  const SizedBox(
+                    height: 15.0,
+                  ),
+                  SizedBox(
+                    height: 100.0,
+                    child: ListView.separated(
+                        physics: const BouncingScrollPhysics(),
+                        scrollDirection: Axis.horizontal,
+                        itemBuilder: (context, index) => buildCategoryItem(
+                            categoriesModel.data!.data[index], context),
+                        separatorBuilder: (context, index) => const SizedBox(
+                              width: 10.0,
+                            ),
+                        itemCount: categoriesModel.data!.data.length),
+                  ),
+                  const SizedBox(
+                    height: 30.0,
+                  ),
+                  const Text(
+                    'New Products',
+                    style:
+                        TextStyle(fontSize: 26.0, fontWeight: FontWeight.w800),
+                  ),
+                  const SizedBox(
+                    height: 10.0,
+                  ),
+                ],
+              ),
             ),
-          ),
-          GridView.count(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            crossAxisCount: 2,
-            mainAxisSpacing: 1.0,
-            crossAxisSpacing: 1.0,
-            childAspectRatio: 1 / 1.57,
-            children: List.generate(
-              homeModel.data!.products.length,
-              (index) =>
-                  buildGridProduct(homeModel.data!.products[index], context),
+            GridView.count(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              crossAxisCount: 2,
+              mainAxisSpacing: 1.0,
+              crossAxisSpacing: 1.0,
+              childAspectRatio: 1 / 1.57,
+              children: List.generate(
+                homeModel.data!.products.length,
+                (index) =>
+                    buildGridProduct(homeModel.data!.products[index], context),
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

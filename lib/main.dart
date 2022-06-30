@@ -27,6 +27,8 @@ void main() async {
 
   token = CacheHelper.getData(key: 'token');
 
+  print(token);
+
   if (onBoarding != null) {
     if (token != null) {
       widget = ShopLayout();
