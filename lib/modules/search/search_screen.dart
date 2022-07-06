@@ -4,8 +4,6 @@ import 'package:shop_app/modules/search/cubit/cubit.dart';
 import 'package:shop_app/modules/search/cubit/states.dart';
 import 'package:shop_app/shared/components/components.dart';
 
-import '../../shared/styles/colors.dart';
-
 class SearchScreen extends StatelessWidget {
   var formKey = GlobalKey<FormState>();
   var searchController = TextEditingController();
@@ -20,17 +18,9 @@ class SearchScreen extends StatelessWidget {
           SearchCubit searchCubit = SearchCubit.get(context);
           return Scaffold(
             appBar: AppBar(
-              title: Text(
-                'Find New Products..',
-                style: TextStyle(color: Colors.grey.shade600),
-                maxLines: 1,
-              ),
-              leading: IconButton(
-                icon: const Icon(
-                  Icons.arrow_back_ios_new_outlined,
-                  color: defaultColor,
-                ),
-                onPressed: () => Navigator.of(context).pop(),
+              leading: backButton(context),
+              title: const Center(
+                child: Text('Search New Products..'),
               ),
             ),
             body: Form(

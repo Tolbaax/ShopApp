@@ -44,7 +44,7 @@ class CartProducts {
   String? name;
   bool? inFavorites;
   String? description;
-  // List<String>? images;
+  dynamic images;
   bool? inCart;
 
   CartProducts.fromJson(Map<String, dynamic> json) {
@@ -55,7 +55,7 @@ class CartProducts {
     image = json['image'];
     name = json['name'];
     description = json['description'];
-    // images = json['images'].cast<String>();
+    images = json['images'];
     inFavorites = json['in_favorites'];
     inCart = json['in_cart'];
   }

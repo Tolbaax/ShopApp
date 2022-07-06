@@ -20,19 +20,6 @@ class UserData {
   int? points;
   int? credit;
 
-  // UserData({
-  //   this.id,
-  //   this.name,
-  //   this.email,
-  //   this.phone,
-  //   this.image,
-  //   this.points,
-  //   this.credit,
-  //   this.token,
-  // });
-
-  // named constructor
-
   UserData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     email = json['email'];

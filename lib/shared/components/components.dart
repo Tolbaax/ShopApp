@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:shop_app/modules/product_details/Produc_details_screen.dart';
+import 'package:shop_app/modules/products/Product_details_screen.dart';
 import 'package:shop_app/shared/styles/colors.dart';
 
 import '../bloc/cubit/cubit.dart';
@@ -143,13 +143,9 @@ Color? chooseToastColor(ToastState state) {
 
 Widget buildListProduct(model, context, {bool isOldPrice = true}) {
   ShopCubit cubit = ShopCubit.get(context);
-  return InkWell(
+  return GestureDetector(
     onTap: () {
-      navigateTo(
-          context,
-          ProductDetailsScreen(
-            productId: model.id,
-          ));
+      navigateTo(context, ProductDetailsScreen());
     },
     child: Padding(
       padding: const EdgeInsetsDirectional.all(20.0),
@@ -207,22 +203,23 @@ Widget buildListProduct(model, context, {bool isOldPrice = true}) {
                   const Spacer(),
                   Row(
                     children: [
-                      Text(
-                        '${model.price}\$',
-                        style: const TextStyle(
-                            color: defaultColor, fontSize: 18.0),
+                      richText(
+                        text: '${model.price}',
+                        color: defaultColor,
+                        size: 18,
                       ),
                       const SizedBox(
-                        width: 10,
+                        width: 5,
                       ),
                       if (model.discount != 0 && isOldPrice)
                         Text(
-                          '${model.oldPrice}\$',
+                          '${model.oldPrice}',
                           style: TextStyle(
-                              fontSize: 14.0,
-                              decoration: TextDecoration.lineThrough,
-                              decorationColor: Colors.grey[700],
-                              color: Colors.grey[700]),
+                            fontSize: 14.0,
+                            decoration: TextDecoration.lineThrough,
+                            decorationColor: Colors.grey[700],
+                            color: Colors.grey[700],
+                          ),
                         ),
                       const Spacer(),
                       IconButton(
@@ -258,3 +255,57 @@ Widget buildListProduct(model, context, {bool isOldPrice = true}) {
 }
 
 //============================================================================
+
+Widget richText({
+  required String text,
+  double size = 20.0,
+  Color color = Colors.black,
+}) {
+  return RichText(
+      text: TextSpan(children: [
+    WidgetSpan(
+        child: Transform.translate(
+      offset: const Offset(-1, -5),
+      child: Text(
+        '\$',
+        style: TextStyle(
+          color: color,
+        ),
+        textScaleFactor: 1.15,
+      ),
+    )),
+    TextSpan(
+        text: text,
+        style: TextStyle(
+          fontSize: size,
+          color: color,
+        )),
+  ]));
+}
+
+//==========================================================================
+
+Widget backButton(context) {
+  return Padding(
+    padding: const EdgeInsetsDirectional.all(6.0),
+    child: GestureDetector(
+      onTap: () {
+        Navigator.pop(context);
+      },
+      child: Container(
+        decoration: BoxDecoration(
+            color: Colors.transparent,
+            borderRadius: BorderRadius.circular(10.0),
+            border: Border.all(
+              color: defaultColor,
+            )),
+        child: const Icon(
+          Icons.arrow_back_ios_new,
+          color: defaultColor,
+        ),
+      ),
+    ),
+  );
+}
+
+//========================================================================

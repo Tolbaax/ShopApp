@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../../shared/styles/colors.dart';
+import 'package:shop_app/shared/components/components.dart';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({Key? key}) : super(key: key);
@@ -9,18 +8,9 @@ class CartScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          'Cart Screen',
-          style: TextStyle(
-            color: Colors.grey.shade600,
-          ),
-        ),
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_ios_new_outlined,
-            color: defaultColor,
-          ),
-          onPressed: () => Navigator.of(context).pop(),
+        leading: backButton(context),
+        title: const Center(
+          child: Text('Cart Screen'),
         ),
       ),
       body: Column(
