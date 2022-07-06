@@ -9,12 +9,7 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../../shared/styles/colors.dart';
 
-class ProductDetailsScreen extends StatefulWidget {
-  @override
-  State<ProductDetailsScreen> createState() => _ProductDetailsScreenState();
-}
-
-class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
+class ProductDetailsScreen extends StatelessWidget {
   PageController imagesController = PageController();
 
   @override
