@@ -288,7 +288,7 @@ Widget richText({
 Widget backButton(context) {
   return Padding(
     padding: const EdgeInsetsDirectional.all(6.0),
-    child: GestureDetector(
+    child: InkWell(
       onTap: () {
         Navigator.pop(context);
       },
@@ -304,8 +304,34 @@ Widget backButton(context) {
           color: defaultColor,
         ),
       ),
+      highlightColor: Colors.transparent,
     ),
   );
 }
 
 //========================================================================
+
+Widget deleteButton(context) {
+  return InkWell(
+    onTap: () {},
+    child: Padding(
+      padding: const EdgeInsets.all(6.0),
+      child: Container(
+        width: MediaQuery.of(context).size.width * 0.12,
+        decoration: BoxDecoration(
+            color: Colors.transparent,
+            borderRadius: BorderRadius.circular(10.0),
+            border: Border.all(
+              color: defaultColor,
+            )),
+        child: const Icon(
+          Icons.delete_outline,
+          color: defaultColor,
+        ),
+      ),
+    ),
+    highlightColor: Colors.transparent,
+  );
+}
+
+//===========================================================================

@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_app/modules/cart/cart_screen.dart';
 import 'package:shop_app/shared/bloc/cubit/cubit.dart';
 import 'package:shop_app/shared/bloc/cubit/states.dart';
+import 'package:shop_app/shared/styles/colors.dart';
 
 import '../modules/categories/categories_screen.dart';
 import '../modules/favorites/favorites_screen.dart';
@@ -35,6 +36,8 @@ class ShopLayout extends StatelessWidget {
                   );
                 },
                 icon: const Icon(Icons.search),
+                splashColor: defaultColor,
+                splashRadius: 20.0,
               ),
               IconButton(
                 onPressed: () {
@@ -44,6 +47,8 @@ class ShopLayout extends StatelessWidget {
                   );
                 },
                 icon: const Icon(Icons.shopping_cart_outlined),
+                splashColor: defaultColor,
+                splashRadius: 20.0,
               ),
             ],
           ),

@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_app/models/categories_model.dart';
+import 'package:shop_app/modules/categories/categoris_details_screen.dart';
 import 'package:shop_app/shared/components/components.dart';
 
 import '../../models/home_mode;.dart';
@@ -97,7 +98,7 @@ class ProductsScreen extends StatelessWidget {
                   height: 15.0,
                 ),
                 SizedBox(
-                  height: 100.0,
+                  height: MediaQuery.of(context).size.height * 0.082,
                   child: ListView.separated(
                     physics: const BouncingScrollPhysics(),
                     scrollDirection: Axis.horizontal,
@@ -110,7 +111,7 @@ class ProductsScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(
-                  height: 30.0,
+                  height: 25.0,
                 ),
                 const Text(
                   'New Products',
@@ -141,28 +142,39 @@ class ProductsScreen extends StatelessWidget {
   }
 
   Widget buildCategoryItem(DataModel dataModel, BuildContext context) {
-    return Stack(
-      alignment: AlignmentDirectional.bottomCenter,
-      children: [
-        Image(
-          image: NetworkImage('${dataModel.image}'),
-          height: MediaQuery.of(context).size.height * 1,
-          width: MediaQuery.of(context).size.width * 0.27,
-          fit: BoxFit.cover,
+    return GestureDetector(
+      onTap: () {
+        navigateTo(context, const CategoriesDetailsScreen());
+      },
+      child: Container(
+        width: MediaQuery.of(context).size.width / 2.7,
+        decoration: BoxDecoration(
+          color: Colors.transparent,
+          borderRadius: BorderRadius.circular(30.0),
+          border: Border.all(color: defaultColor),
         ),
-        Container(
-          width: 100.0,
-          color: Colors.black.withOpacity(0.8),
-          padding: const EdgeInsets.symmetric(vertical: 2),
-          child: Text(
-            '${dataModel.name}',
-            textAlign: TextAlign.center,
-            overflow: TextOverflow.ellipsis,
-            maxLines: 1,
-            style: const TextStyle(color: Colors.white),
-          ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            CircleAvatar(
+              radius: 20.0,
+              backgroundColor: Colors.transparent,
+              child: Image(
+                image: NetworkImage(
+                  '${dataModel.image}',
+                ),
+              ),
+            ),
+            Text(
+              '${dataModel.name}'.split(" ").elementAt(0),
+              style: const TextStyle(
+                fontSize: 17.0,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 

@@ -13,7 +13,7 @@ import '../../shared/styles/colors.dart';
 class ProductDetailsScreen extends StatelessWidget {
   ProductDetailsScreen({Key? key, required this.productId}) : super(key: key);
   PageController imagesController = PageController();
-  late int productId;
+  int productId;
 
   @override
   Widget build(BuildContext context) {
@@ -38,12 +38,9 @@ class ProductDetailsScreen extends StatelessWidget {
                       height: 250.0,
                       child: PageView.builder(
                         itemBuilder: (context, index) {
-                          return Hero(
-                            tag: 53,
-                            child: Image(
-                              image: NetworkImage(
-                                cubit.productDetailsModel!.data!.images![index],
-                              ),
+                          return Image(
+                            image: NetworkImage(
+                              cubit.productDetailsModel!.data!.images![index],
                             ),
                           );
                         },
@@ -186,7 +183,7 @@ class ProductDetailsScreen extends StatelessWidget {
                       padding: const EdgeInsetsDirectional.only(
                         start: 20.0,
                         end: 20.0,
-                        bottom: 20.0,
+                        bottom: 25.0,
                       ),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
