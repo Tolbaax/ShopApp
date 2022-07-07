@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_app/shared/bloc/cubit/cubit.dart';
 import 'package:shop_app/shared/bloc/cubit/states.dart';
-import 'package:shop_app/shared/styles/colors.dart';
 
 import '../../shared/components/components.dart';
 
@@ -39,18 +38,13 @@ class EditProfileScreen extends StatelessWidget {
         phoneController.text = model.data.phone;
         return Scaffold(
           appBar: AppBar(
-            title: Text(
-              "Welcome ${model.data.name.split(" ").elementAt(0)}...",
-              maxLines: 1,
-              style: TextStyle(color: Colors.grey.shade600),
-            ),
-            leading: IconButton(
-              icon: const Icon(
-                Icons.arrow_back_ios_new_outlined,
-                color: defaultColor,
+            title: Center(
+              child: Text(
+                "Welcome ${model.data.name.split(" ").elementAt(0)}..",
+                maxLines: 1,
               ),
-              onPressed: () => Navigator.of(context).pop(),
             ),
+            leading: backButton(context),
           ),
           body: ConditionalBuilder(
             condition: state is! ShopLoadingUserDataState,

@@ -32,6 +32,6 @@ class Data {
     description = json['description'];
     inFavorites = json['in_favorites'];
     inCart = json['in_cart'];
-    images = json['images'];
+    images = json['images'].cast<String>();
   }
 }

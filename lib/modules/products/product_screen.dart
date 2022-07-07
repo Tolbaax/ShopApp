@@ -170,7 +170,7 @@ class ProductsScreen extends StatelessWidget {
     ShopCubit cubit = ShopCubit.get(context);
     return GestureDetector(
       onTap: () {
-        navigateTo(context, ProductDetailsScreen());
+        navigateTo(context, ProductDetailsScreen(productId: model.id));
       },
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

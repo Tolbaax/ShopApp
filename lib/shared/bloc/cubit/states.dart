@@ -17,6 +17,8 @@ class ShopSuccessHomeDataState extends ShopStates {}
 
 class ShopErrorHomeDataState extends ShopStates {}
 
+class ShopLoadingCategoriesState extends ShopStates {}
+
 class ShopSuccessCategoriesState extends ShopStates {}
 
 class ShopErrorCategoriesState extends ShopStates {}
@@ -59,3 +61,9 @@ class ShopLoadingCartsState extends ShopStates {}
 class ShopSuccessCartsState extends ShopStates {}
 
 class ShopErrorCartsState extends ShopStates {}
+
+class ShopLoadingProductDetailsState extends ShopStates {}
+
+class ShopSuccessProductDetailsState extends ShopStates {}
+
+class ShopErrorProductDetailsState extends ShopStates {}

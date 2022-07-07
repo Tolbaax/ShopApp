@@ -145,7 +145,7 @@ Widget buildListProduct(model, context, {bool isOldPrice = true}) {
   ShopCubit cubit = ShopCubit.get(context);
   return GestureDetector(
     onTap: () {
-      navigateTo(context, ProductDetailsScreen());
+      navigateTo(context, ProductDetailsScreen(productId: model.id));
     },
     child: Padding(
       padding: const EdgeInsetsDirectional.all(20.0),

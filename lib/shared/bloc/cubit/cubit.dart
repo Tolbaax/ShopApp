@@ -15,6 +15,7 @@ import 'package:shop_app/shared/network/remote/dio_helper.dart';
 import 'package:shop_app/shared/network/remote/end_points.dart';
 
 import '../../../models/change_favorites_model.dart';
+import '../../../models/product_details_model.dart';
 
 class ShopCubit extends Cubit<ShopStates> {
   ShopCubit() : super(ShopInitialState());
@@ -75,6 +76,7 @@ class ShopCubit extends Cubit<ShopStates> {
   ///Get Categories
   CategoriesModel? categoriesModel;
   void getCategories() {
+    emit(ShopLoadingCategoriesState());
     DioHelper.getData(
       url: GET_CATEGORIES,
       token: token,
@@ -187,6 +189,24 @@ class ShopCubit extends Cubit<ShopStates> {
         print(error.toString());
       }
       emit(ShopErrorUpdateUserState());
+    });
+  }
+
+  ///Product Details
+  ProductDetailsModel? productDetailsModel;
+  void getProductDetails({required int id}) {
+    emit(ShopLoadingProductDetailsState());
+    DioHelper.getData(
+      url: "products/$id",
+      token: token,
+    ).then((value) {
+      productDetailsModel = ProductDetailsModel.fromJson(value.data);
+      emit(ShopSuccessProductDetailsState());
+    }).catchError((error) {
+      emit(ShopErrorProductDetailsState());
+      if (kDebugMode) {
+        print(error.toString());
+      }
     });
   }
 }
