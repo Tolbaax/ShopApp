@@ -101,8 +101,8 @@ class CartScreen extends StatelessWidget {
 
   Widget cartItemBuilder(context) {
     return Padding(
-      padding: const EdgeInsetsDirectional.only(
-          start: 20.0, end: 20.0, top: 30.0, bottom: 10.0),
+      padding:
+          const EdgeInsetsDirectional.only(start: 20.0, end: 20.0, top: 30.0),
       child: Column(
         children: [
           Row(
@@ -172,18 +172,23 @@ class CartScreen extends StatelessWidget {
                 const Spacer(),
                 Column(
                   children: [
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.04,
-                      width: MediaQuery.of(context).size.width * 0.07,
-                      decoration: BoxDecoration(
-                        color: defaultColor.shade200,
-                        borderRadius: BorderRadius.circular(10.0),
+                    InkWell(
+                      onTap: () {},
+                      child: Container(
+                        height: MediaQuery.of(context).size.height * 0.04,
+                        width: MediaQuery.of(context).size.width * 0.07,
+                        decoration: BoxDecoration(
+                          color: defaultColor.shade200,
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        child: const Icon(
+                          Icons.add,
+                          color: Colors.white,
+                          size: 20,
+                        ),
                       ),
-                      child: const Icon(
-                        Icons.add,
-                        color: Colors.white,
-                        size: 20,
-                      ),
+                      highlightColor: Colors.transparent,
+                      radius: 0.0,
                     ),
                     const Padding(
                       padding: EdgeInsets.symmetric(vertical: 15.0),
@@ -196,18 +201,23 @@ class CartScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.04,
-                      width: MediaQuery.of(context).size.width * 0.07,
-                      decoration: BoxDecoration(
-                        color: defaultColor.shade200,
-                        borderRadius: BorderRadius.circular(10.0),
+                    InkWell(
+                      onTap: () {},
+                      child: Container(
+                        height: MediaQuery.of(context).size.height * 0.04,
+                        width: MediaQuery.of(context).size.width * 0.07,
+                        decoration: BoxDecoration(
+                          color: defaultColor.shade200,
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        child: const Icon(
+                          Icons.remove,
+                          color: Colors.white,
+                          size: 20.0,
+                        ),
                       ),
-                      child: const Icon(
-                        Icons.remove,
-                        color: Colors.white,
-                        size: 20.0,
-                      ),
+                      highlightColor: Colors.transparent,
+                      radius: 0.0,
                     ),
                   ],
                 ),

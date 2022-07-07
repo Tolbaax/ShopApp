@@ -305,6 +305,7 @@ Widget backButton(context) {
         ),
       ),
       highlightColor: Colors.transparent,
+      radius: 0.0,
     ),
   );
 }
@@ -331,6 +332,7 @@ Widget deleteButton(context) {
       ),
     ),
     highlightColor: Colors.transparent,
+    radius: 0.0,
   );
 }
 
