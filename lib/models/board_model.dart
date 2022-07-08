@@ -9,14 +9,14 @@ class BoardingModel {
 List<BoardingModel> boarding = [
   BoardingModel(
       title: 'Cash Back',
-      image: 'assets/images/onboard1.png',
+      image: 'assets/images/Mobile-payments.png',
       body: 'Smart Payment'),
   BoardingModel(
-      title: 'Cash Back',
-      image: 'assets/images/onboard2.png',
-      body: 'Smart LifeStyle'),
+      title: 'Payment Process',
+      image: 'assets/images/Mobile-payments.png',
+      body: 'Easy and secure payment in online\npayment network'),
   BoardingModel(
       title: 'Cash Back',
-      image: 'assets/images/onboard3.png',
+      image: 'assets/images/Mobile-payments.png',
       body: 'Smart Payment'),
 ];

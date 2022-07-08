@@ -28,7 +28,7 @@ class CategoriesScreen extends StatelessWidget {
   }
 
   Widget buildCatItem(DataModel model, context) => Padding(
-        padding: const EdgeInsetsDirectional.all(20.0),
+        padding: const EdgeInsetsDirectional.all(10.0),
         child: GestureDetector(
           onTap: () {
             navigateTo(context, const CategoriesDetailsScreen());
@@ -41,6 +41,7 @@ class CategoriesScreen extends StatelessWidget {
             ),
             child: SizedBox(
               height: MediaQuery.of(context).size.height * 0.13,
+              width: MediaQuery.of(context).size.height * 0.8,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [

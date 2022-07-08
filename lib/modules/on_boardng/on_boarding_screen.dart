@@ -34,21 +34,25 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
             onPressed: () {
               submit();
             },
-            child: const Text(
-              'SKIP',
-              style: TextStyle(fontSize: 20),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                'SKIP',
+                style: TextStyle(
+                    fontSize: 20,
+                    color: defaultColor.shade600,
+                    fontWeight: FontWeight.w500),
+              ),
             ),
           ),
         ],
       ),
       body: Padding(
-        padding: const EdgeInsetsDirectional.all(20.0),
+        padding: const EdgeInsetsDirectional.all(10.0),
         child: Column(
           children: [
-            const SizedBox(
-              height: 20,
-            ),
-            Expanded(
+            SizedBox(
+              height: MediaQuery.of(context).size.height * 0.675,
               child: PageView.builder(
                 itemBuilder: (context, index) => buildPageView(boarding[index]),
                 physics: const BouncingScrollPhysics(),
@@ -65,36 +69,45 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 },
               ),
             ),
-            Row(
-              children: [
-                SmoothPageIndicator(
-                  effect: const ExpandingDotsEffect(
-                    activeDotColor: defaultColor,
-                    expansionFactor: 4,
-                    dotHeight: 10.0,
-                    dotWidth: 10.0,
-                    spacing: 6.0,
+            SmoothPageIndicator(
+              effect: const ExpandingDotsEffect(
+                activeDotColor: defaultColor,
+                expansionFactor: 4,
+                dotHeight: 10.0,
+                dotWidth: 10.0,
+                spacing: 6.0,
+              ),
+              controller: boardController,
+              count: boarding.length,
+            ),
+            const Spacer(),
+            Container(
+              height: MediaQuery.of(context).size.height * 0.076,
+              width: MediaQuery.of(context).size.width * 0.53,
+              decoration: BoxDecoration(
+                  color: defaultColor,
+                  borderRadius: BorderRadius.circular(15.0)),
+              child: TextButton(
+                onPressed: () {
+                  isLast
+                      ? submit()
+                      : boardController.nextPage(
+                          duration: const Duration(microseconds: 500),
+                          curve: Curves.fastLinearToSlowEaseIn,
+                        );
+                },
+                child: Text(
+                  isLast ? 'GET STARTED' : 'SKIP',
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.w500,
                   ),
-                  controller: boardController,
-                  count: boarding.length,
                 ),
-                const Spacer(),
-                FloatingActionButton(
-                  onPressed: () {
-                    if (isLast) {
-                      submit();
-                    } else {
-                      boardController.nextPage(
-                        duration: const Duration(
-                          milliseconds: 750,
-                        ),
-                        curve: Curves.fastLinearToSlowEaseIn,
-                      );
-                    }
-                  },
-                  child: const Icon(Icons.arrow_forward_ios),
-                ),
-              ],
+              ),
+            ),
+            const SizedBox(
+              height: 30.0,
             ),
           ],
         ),
@@ -103,7 +116,6 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
   }
 
   Widget buildPageView(BoardingModel model) => Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Image(image: AssetImage(model.image)),
           const SizedBox(
@@ -111,18 +123,25 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
           ),
           Text(
             model.title,
-            style: const TextStyle(
-              fontSize: 26.0,
+            style: TextStyle(
+              fontSize: 37.0,
+              fontWeight: FontWeight.w500,
+              color: defaultColor.shade900,
             ),
+            textAlign: TextAlign.center,
           ),
           const SizedBox(
             height: 15.0,
           ),
           Text(
             model.body,
-            style: const TextStyle(
-              fontSize: 16.0,
+            style: TextStyle(
+              fontSize: 18.0,
+              fontWeight: FontWeight.w500,
+              color: defaultColor.shade900,
+              height: 1.5,
             ),
+            textAlign: TextAlign.center,
           ),
         ],
       );
