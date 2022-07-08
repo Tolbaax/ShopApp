@@ -1,7 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shop_app/models/cart_model.dart';
 import 'package:shop_app/models/categories_model.dart';
+import 'package:shop_app/models/change_cart_model.dart';
 import 'package:shop_app/models/favorites_model.dart';
 import 'package:shop_app/models/home_mode;.dart';
 import 'package:shop_app/models/login_model.dart';
@@ -15,7 +17,6 @@ import 'package:shop_app/shared/network/remote/dio_helper.dart';
 import 'package:shop_app/shared/network/remote/end_points.dart';
 
 import '../../../models/change_favorites_model.dart';
-import '../../../models/product_details_model.dart';
 
 class ShopCubit extends Cubit<ShopStates> {
   ShopCubit() : super(ShopInitialState());
@@ -29,28 +30,28 @@ class ShopCubit extends Cubit<ShopStates> {
     const SettingsScreen(),
   ];
 
-  ///BottomNavBarState
+  // BottomNavBarState
   int currentIndex = 0;
   void changeBottom(int index) {
     currentIndex = index;
     emit(ShopChangeBottomNav());
   }
 
-  ///Change To Dark Mode
+  // Change To Dark Mode
   bool isDark = false;
   void changeTheme(value) {
     isDark = !isDark;
     emit(ShopChangeTheme());
   }
 
-  ///Change Notifications
+  // Change Notifications
   bool isNotify = false;
   void changeNotification(value) {
     isNotify = !isNotify;
     emit(ShopChangeNotification());
   }
 
-  ///Get Home Data
+  // Get Home Data
   HomeModel? homeModel;
   Map<int, dynamic> favorites = {};
   void getHomeData() {
@@ -73,7 +74,7 @@ class ShopCubit extends Cubit<ShopStates> {
     });
   }
 
-  ///Get Categories
+  // Get Categories
   CategoriesModel? categoriesModel;
   void getCategories() {
     emit(ShopLoadingCategoriesState());
@@ -92,7 +93,7 @@ class ShopCubit extends Cubit<ShopStates> {
     });
   }
 
-  ///Add or delete favorite with product id
+  // Add or delete favorite with product id
   ChangeFavoritesModel? changeFavoritesModel;
   void changeFavorites({
     required int productId,
@@ -124,11 +125,10 @@ class ShopCubit extends Cubit<ShopStates> {
     });
   }
 
-  ///Get Favorites
+  // Get Favorites
   FavoritesModel? favoritesModel;
   void getFavorites() {
     emit(ShopLoadingGetFavoritesState());
-
     DioHelper.getData(
       url: FAVORITES,
       token: token,
@@ -144,7 +144,7 @@ class ShopCubit extends Cubit<ShopStates> {
     });
   }
 
-  ///User Profile
+  // User Profile
   ShopLoginModel? userModel;
   void getUserData() {
     emit(ShopLoadingUserDataState());
@@ -164,7 +164,7 @@ class ShopCubit extends Cubit<ShopStates> {
     });
   }
 
-  ///Update Profile
+  // Update Profile
   void updateUserData({
     required String? name,
     required String? email,
@@ -192,18 +192,40 @@ class ShopCubit extends Cubit<ShopStates> {
     });
   }
 
-  ///Product Details
-  ProductDetailsModel? productDetailsModel;
-  void getProductDetails({required int id}) {
-    emit(ShopLoadingProductDetailsState());
+  // Get Carts
+  CartModel? cartModel;
+  void getCarts() {
+    emit(ShopLoadingGetCartsState());
     DioHelper.getData(
-      url: "products/$id",
+      url: CARTS,
       token: token,
     ).then((value) {
-      productDetailsModel = ProductDetailsModel.fromJson(value.data);
-      emit(ShopSuccessProductDetailsState());
+      cartModel = CartModel.fromJson(value.data);
+      emit(ShopSuccessGetCartsState());
     }).catchError((error) {
-      emit(ShopErrorProductDetailsState());
+      emit(ShopErrorGetCartsState());
+      if (kDebugMode) {
+        print(error.toString());
+      }
+    });
+  }
+
+  // Add or remove cart with product id
+  ChangeCartModel? changeCartModel;
+  void changeCart({required int productId}) {
+    emit(ShopChangeCartState());
+    DioHelper.postData(
+      url: CARTS,
+      data: {
+        'product_id': productId,
+      },
+      token: token,
+    ).then((value) {
+      changeCartModel = ChangeCartModel.fromJson(value.data);
+      getCarts();
+      emit(ShopSuccessChangeCartState(changeCartModel!));
+    }).catchError((error) {
+      emit(ShopErrorChangeCartState());
       if (kDebugMode) {
         print(error.toString());
       }

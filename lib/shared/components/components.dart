@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:shop_app/modules/products/Product_details_screen.dart';
 import 'package:shop_app/shared/styles/colors.dart';
-
-import '../bloc/cubit/cubit.dart';
 
 Widget defaultFormField({
   String? Function(String?)? onChange,
@@ -140,121 +137,6 @@ Color? chooseToastColor(ToastState state) {
 }
 
 //=====================================================================
-
-Widget buildListProduct(model, context, {bool isOldPrice = true}) {
-  ShopCubit cubit = ShopCubit.get(context);
-  return GestureDetector(
-    onTap: () {
-      navigateTo(context, ProductDetailsScreen(productId: model.id));
-    },
-    child: Padding(
-      padding: const EdgeInsetsDirectional.all(20.0),
-      child: SizedBox(
-        height: 120.0,
-        child: Row(
-          children: [
-            SizedBox(
-              height: 120.0,
-              width: 120.0,
-              child: Stack(
-                alignment: AlignmentDirectional.bottomStart,
-                children: [
-                  Image(
-                    image: NetworkImage('${model.image}'),
-                    width: 120.0,
-                    height: 120.0,
-                  ),
-                  if (model.discount != 0 && isOldPrice)
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.0),
-                        color: Colors.redAccent,
-                      ),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 5.0, vertical: 2.0),
-                      child: const Text(
-                        'DISCOUNT',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 12.0,
-                            fontWeight: FontWeight.w600),
-                      ),
-                    ),
-                ],
-              ),
-            ),
-            const SizedBox(
-              width: 20.0,
-            ),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(
-                    height: 3,
-                  ),
-                  Text(
-                    '${model.name}',
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 2,
-                    style: const TextStyle(
-                        fontSize: 18.0, fontWeight: FontWeight.w500),
-                  ),
-                  const Spacer(),
-                  Row(
-                    children: [
-                      richText(
-                        text: '${model.price}',
-                        color: defaultColor,
-                        size: 18,
-                      ),
-                      const SizedBox(
-                        width: 5,
-                      ),
-                      if (model.discount != 0 && isOldPrice)
-                        Text(
-                          '${model.oldPrice}',
-                          style: TextStyle(
-                            fontSize: 14.0,
-                            decoration: TextDecoration.lineThrough,
-                            decorationColor: Colors.grey[700],
-                            color: Colors.grey[700],
-                          ),
-                        ),
-                      const Spacer(),
-                      IconButton(
-                        icon: CircleAvatar(
-                          radius: 15.0,
-                          backgroundColor: cubit.favorites[model.id]
-                              ? defaultColor
-                              : Colors.grey,
-                          child: const Icon(
-                            Icons.favorite_rounded,
-                            size: 18.0,
-                            color: Colors.white,
-                          ),
-                        ),
-                        splashRadius: 20.0,
-                        splashColor: cubit.favorites[model.id]
-                            ? Colors.grey
-                            : defaultColor,
-                        onPressed: () {
-                          cubit.changeFavorites(productId: model.id);
-                        },
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    ),
-  );
-}
-
-//============================================================================
 
 Widget richText({
   required String text,

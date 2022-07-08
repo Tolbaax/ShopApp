@@ -1,9 +1,12 @@
+import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shop_app/modules/products/Product_details_screen.dart';
 import 'package:shop_app/shared/bloc/cubit/cubit.dart';
 import 'package:shop_app/shared/bloc/cubit/states.dart';
 import 'package:shop_app/shared/components/components.dart';
 
+import '../../shared/components/widgets.dart';
 import '../../shared/styles/colors.dart';
 
 class CartScreen extends StatelessWidget {
@@ -12,8 +15,25 @@ class CartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ShopCubit, ShopStates>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if (state is ShopSuccessChangeCartState) {
+          if (!state.model.status!) {
+            showToast(
+                text: state.model.message.toString(), state: ToastState.error);
+          } else if (state.model.status!) {
+            showToast(
+                text: state.model.message.toString(),
+                state: ToastState.success);
+          } else {
+            showToast(
+                text: state.model.message.toString(),
+                state: ToastState.warning);
+          }
+        }
+      },
       builder: (context, state) {
+        ShopCubit cubit = ShopCubit.get(context);
+
         return Scaffold(
           appBar: AppBar(
             leading: backButton(context),
@@ -27,205 +47,100 @@ class CartScreen extends StatelessWidget {
               deleteButton(context),
             ],
           ),
-          body: Column(
-            children: [
-              Expanded(
-                child: ListView.builder(
-                  itemBuilder: (context, index) => cartItemBuilder(context),
-                  itemCount: 2,
-                ),
-              ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.101,
-                child: Padding(
-                  padding: const EdgeInsetsDirectional.only(
-                      start: 20.0, end: 20.0, bottom: 20.0),
-                  child: Row(
-                    children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Amount Price',
-                            style: TextStyle(
-                                color: Colors.grey.shade800, fontSize: 17.0),
-                          ),
-                          const Spacer(),
-                          richText(
-                            text: '520',
-                            size: 30.0,
-                          ),
-                        ],
-                      ),
-                      const Spacer(),
-                      Container(
-                        height: MediaQuery.of(context).size.height * 0.101,
-                        width: MediaQuery.of(context).size.width * 0.42,
-                        decoration: BoxDecoration(
-                            color: defaultColor,
-                            borderRadius: BorderRadius.circular(15.0)),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: const [
-                            Text(
-                              'Check Out',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                            CircleAvatar(
-                              radius: 14.0,
-                              child: Text(
-                                '4',
-                                style: TextStyle(
-                                  color: defaultColor,
-                                ),
-                              ),
-                              backgroundColor: Colors.white,
-                            )
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  Widget cartItemBuilder(context) {
-    return Padding(
-      padding:
-          const EdgeInsetsDirectional.only(start: 20.0, end: 20.0, top: 30.0),
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Icon(
-                Icons.shopping_bag_outlined,
-                color: Colors.grey.shade600,
-                size: 20,
-              ),
-              const SizedBox(
-                width: 5.0,
-              ),
-              const Text(
-                'Scarlet',
-                style: TextStyle(
-                  fontSize: 20.0,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(
-            height: 5.0,
-          ),
-          Container(
-            width: double.infinity,
-            height: 1.0,
-            color: Colors.grey[300],
-          ),
-          Padding(
-            padding: const EdgeInsetsDirectional.only(top: 20.0),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
+          body: ConditionalBuilder(
+            condition: cubit.cartModel != null,
+            builder: (context) => Column(
               children: [
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.13,
-                  width: MediaQuery.of(context).size.width * 0.26,
-                  decoration: BoxDecoration(
-                      color: Colors.transparent,
-                      borderRadius: BorderRadius.circular(15.0),
-                      image: const DecorationImage(
-                        image: NetworkImage(
-                          'https://student.valuxapps.com/storage/uploads/products/1615440689Oojt6.item_XXL_36330138_142814947.jpeg',
-                        ),
-                      )),
-                ),
                 const SizedBox(
-                  width: 10.0,
+                  height: 30.0,
+                ),
+                Expanded(
+                  child: ListView.builder(
+                    itemBuilder: (context, index) => GestureDetector(
+                      onTap: () {
+                        navigateTo(
+                            context,
+                            ProductDetailsScreen(
+                              productId: cubit.cartModel!.data!
+                                  .cartItems![index].product!.id,
+                            ));
+                      },
+                      child: cartItemBuilder(
+                          cubit.cartModel!.data!.cartItems![index],
+                          context,
+                          index),
+                    ),
+                    itemCount: cubit.cartModel!.data!.cartItems!.length,
+                  ),
                 ),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.13,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Scarlett Whitening',
-                        style: TextStyle(
-                          fontSize: 17.0,
-                          fontWeight: FontWeight.w500,
+                  height: MediaQuery.of(context).size.height * 0.101,
+                  child: Padding(
+                    padding: const EdgeInsetsDirectional.only(
+                        start: 20.0, end: 20.0, bottom: 20.0),
+                    child: Row(
+                      children: [
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Amount Price',
+                              style: TextStyle(
+                                color: Colors.grey.shade900,
+                                fontSize: 18.0,
+                              ),
+                            ),
+                            const Spacer(),
+                            richText(
+                              text: '${cubit.cartModel!.data!.total}',
+                              size: 27.5,
+                            ),
+                          ],
                         ),
-                      ),
-                      const Spacer(),
-                      richText(text: '520'),
-                    ],
+                        const Spacer(),
+                        Container(
+                          height: MediaQuery.of(context).size.height * 0.101,
+                          width: MediaQuery.of(context).size.width * 0.42,
+                          decoration: BoxDecoration(
+                              color: defaultColor,
+                              borderRadius: BorderRadius.circular(15.0)),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              const Text(
+                                'Check Out',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18.0,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                              CircleAvatar(
+                                radius: 14.0,
+                                child: Text(
+                                  '${cubit.cartModel!.data!.cartItems!.length}',
+                                  style: const TextStyle(
+                                    color: defaultColor,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                                ),
+                                backgroundColor: Colors.white,
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                const Spacer(),
-                Column(
-                  children: [
-                    InkWell(
-                      onTap: () {},
-                      child: Container(
-                        height: MediaQuery.of(context).size.height * 0.04,
-                        width: MediaQuery.of(context).size.width * 0.07,
-                        decoration: BoxDecoration(
-                          color: defaultColor.shade200,
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        child: const Icon(
-                          Icons.add,
-                          color: Colors.white,
-                          size: 20,
-                        ),
-                      ),
-                      highlightColor: Colors.transparent,
-                      radius: 0.0,
-                    ),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(vertical: 15.0),
-                      child: Text(
-                        '1',
-                        style: TextStyle(
-                          fontSize: 22.0,
-                          color: defaultColor,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
-                    ),
-                    InkWell(
-                      onTap: () {},
-                      child: Container(
-                        height: MediaQuery.of(context).size.height * 0.04,
-                        width: MediaQuery.of(context).size.width * 0.07,
-                        decoration: BoxDecoration(
-                          color: defaultColor.shade200,
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        child: const Icon(
-                          Icons.remove,
-                          color: Colors.white,
-                          size: 20.0,
-                        ),
-                      ),
-                      highlightColor: Colors.transparent,
-                      radius: 0.0,
-                    ),
-                  ],
                 ),
               ],
             ),
+            fallback: (context) => const Center(
+              child: CircularProgressIndicator(),
+            ),
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../shared/bloc/cubit/cubit.dart';
 import '../../shared/bloc/cubit/states.dart';
 import '../../shared/components/components.dart';
+import '../../shared/components/widgets.dart';
 
 class FavoritesScreen extends StatelessWidget {
   const FavoritesScreen({Key? key}) : super(key: key);

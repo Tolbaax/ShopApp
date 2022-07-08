@@ -4,6 +4,8 @@ import 'package:shop_app/modules/search/cubit/cubit.dart';
 import 'package:shop_app/modules/search/cubit/states.dart';
 import 'package:shop_app/shared/components/components.dart';
 
+import '../../shared/components/widgets.dart';
+
 class SearchScreen extends StatelessWidget {
   var formKey = GlobalKey<FormState>();
   var searchController = TextEditingController();

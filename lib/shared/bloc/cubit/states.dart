@@ -1,3 +1,4 @@
+import 'package:shop_app/models/change_cart_model.dart';
 import 'package:shop_app/models/change_favorites_model.dart';
 import 'package:shop_app/models/login_model.dart';
 
@@ -56,14 +57,17 @@ class ShopSuccessUpdateUserState extends ShopStates {
 
 class ShopErrorUpdateUserState extends ShopStates {}
 
-class ShopLoadingCartsState extends ShopStates {}
+class ShopLoadingGetCartsState extends ShopStates {}
 
-class ShopSuccessCartsState extends ShopStates {}
+class ShopSuccessGetCartsState extends ShopStates {}
 
-class ShopErrorCartsState extends ShopStates {}
+class ShopErrorGetCartsState extends ShopStates {}
 
-class ShopLoadingProductDetailsState extends ShopStates {}
+class ShopChangeCartState extends ShopStates {}
 
-class ShopSuccessProductDetailsState extends ShopStates {}
+class ShopSuccessChangeCartState extends ShopStates {
+  final ChangeCartModel model;
+  ShopSuccessChangeCartState(this.model);
+}
 
-class ShopErrorProductDetailsState extends ShopStates {}
+class ShopErrorChangeCartState extends ShopStates {}

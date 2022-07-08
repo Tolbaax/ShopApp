@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:read_more_text/read_more_text.dart';
 import 'package:shop_app/modules/products/cubit/cubit.dart';
+import 'package:shop_app/modules/products/cubit/states.dart';
 import 'package:shop_app/shared/bloc/cubit/cubit.dart';
-import 'package:shop_app/shared/bloc/cubit/states.dart';
 import 'package:shop_app/shared/components/components.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -19,7 +19,7 @@ class ProductDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => ProductCubit()..getProductDetails(id: productId),
-      child: BlocConsumer<ShopCubit, ShopStates>(
+      child: BlocConsumer<ProductCubit, ProductStates>(
         listener: (context, states) {},
         builder: (context, states) {
           ProductCubit cubit = ProductCubit.get(context);
@@ -27,7 +27,6 @@ class ProductDetailsScreen extends StatelessWidget {
           return Scaffold(
             appBar: AppBar(
               leading: backButton(context),
-              title: const Center(child: Text('product Details')),
             ),
             body: ConditionalBuilder(
               condition: cubit.productDetailsModel != null,
@@ -98,9 +97,8 @@ class ProductDetailsScreen extends StatelessWidget {
                               IconButton(
                                 icon: CircleAvatar(
                                   radius: 15.0,
-                                  backgroundColor: ShopCubit.get(context)
-                                              .favorites[
-                                          cubit.productDetailsModel!.data!.id]
+                                  backgroundColor: cubit.productDetailsModel!
+                                          .data!.inFavorites
                                       ? defaultColor
                                       : Colors.grey,
                                   child: const Icon(
@@ -110,14 +108,13 @@ class ProductDetailsScreen extends StatelessWidget {
                                   ),
                                 ),
                                 splashRadius: 20.0,
-                                splashColor: ShopCubit.get(context).favorites[
-                                        cubit.productDetailsModel!.data!.id]
-                                    ? Colors.grey
-                                    : defaultColor,
+                                // splashColor:
+                                //     cubit.productDetailsModel!.data!.inFavorites
+                                //         ? Colors.grey
+                                //         : defaultColor,
                                 onPressed: () {
                                   ShopCubit.get(context).changeFavorites(
-                                    productId:
-                                        cubit.productDetailsModel!.data!.id,
+                                    productId: productId,
                                   );
                                 },
                               ),
@@ -232,18 +229,27 @@ class ProductDetailsScreen extends StatelessWidget {
                               ],
                             ),
                           ),
-                          Container(
-                            height: MediaQuery.of(context).size.height * 0.075,
-                            width: MediaQuery.of(context).size.width * 0.15,
-                            decoration: BoxDecoration(
-                              color: defaultColor,
-                              borderRadius: BorderRadius.circular(15.0),
-                            ),
-                            child: const Center(
-                              child: Icon(
-                                Icons.shopping_cart,
-                                color: Colors.white,
-                                size: 26.0,
+                          InkWell(
+                            onTap: () {
+                              ShopCubit.get(context)
+                                  .changeCart(productId: productId);
+                            },
+                            child: Container(
+                              height:
+                                  MediaQuery.of(context).size.height * 0.075,
+                              width: MediaQuery.of(context).size.width * 0.15,
+                              decoration: BoxDecoration(
+                                color: cubit.productDetailsModel!.data!.inCart
+                                    ? defaultColor
+                                    : Colors.grey,
+                                borderRadius: BorderRadius.circular(15.0),
+                              ),
+                              child: const Center(
+                                child: Icon(
+                                  Icons.shopping_cart,
+                                  color: Colors.white,
+                                  size: 26.0,
+                                ),
                               ),
                             ),
                           ),

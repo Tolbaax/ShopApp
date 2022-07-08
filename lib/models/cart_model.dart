@@ -3,7 +3,7 @@ class CartModel {
   String? message;
   CartData? data;
 
-  CartModel(Map<String, dynamic> json) {
+  CartModel.fromJson(Map<String, dynamic> json) {
     status = json['status'];
     message = json['message'];
     data = json['data'] != null ? CartData.fromJson(json['data']) : null;
@@ -16,7 +16,12 @@ class CartData {
   dynamic total;
 
   CartData.fromJson(Map<String, dynamic> json) {
-    cartItems = json['cart_items'];
+    if (json['cart_items'] != null) {
+      cartItems = <CartItems>[];
+      json['cart_items'].forEach((v) {
+        cartItems!.add(CartItems.fromJson(v));
+      });
+    }
     subTotal = json['sub_total'];
     total = json['total'];
   }
@@ -25,29 +30,26 @@ class CartData {
 class CartItems {
   dynamic id;
   dynamic quantity;
-  CartProducts? product;
+  CartProduct? product;
 
   CartItems.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     quantity = json['quantity'];
     product =
-        json['product'] != null ? CartProducts.fromJson(json['product']) : null;
+        json['product'] != null ? CartProduct.fromJson(json['product']) : null;
   }
 }
 
-class CartProducts {
+class CartProduct {
   dynamic id;
   dynamic price;
   dynamic oldPrice;
   dynamic discount;
   String? image;
   String? name;
-  bool? inFavorites;
   String? description;
-  dynamic images;
-  bool? inCart;
 
-  CartProducts.fromJson(Map<String, dynamic> json) {
+  CartProduct.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     price = json['price'];
     oldPrice = json['old_price'];
@@ -55,8 +57,5 @@ class CartProducts {
     image = json['image'];
     name = json['name'];
     description = json['description'];
-    images = json['images'];
-    inFavorites = json['in_favorites'];
-    inCart = json['in_cart'];
   }
 }
