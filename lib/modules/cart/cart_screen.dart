@@ -39,106 +39,107 @@ class CartScreen extends StatelessWidget {
             leading: backButton(context),
             title: const Center(
               child: Text(
-                'Cart',
+                'Cart     ',
                 style: TextStyle(fontSize: 30.0),
               ),
             ),
-            actions: [
-              deleteButton(context),
-            ],
           ),
-          body: ConditionalBuilder(
-            condition: cubit.cartModel != null,
-            builder: (context) => Column(
-              children: [
-                const SizedBox(
-                  height: 30.0,
-                ),
-                Expanded(
-                  child: ListView.builder(
-                    itemBuilder: (context, index) => GestureDetector(
-                      onTap: () {
-                        navigateTo(
-                            context,
-                            ProductDetailsScreen(
-                              productId: cubit.cartModel!.data!
-                                  .cartItems![index].product!.id,
-                            ));
-                      },
-                      child: cartItemBuilder(
-                          cubit.cartModel!.data!.cartItems![index],
-                          context,
-                          index),
-                    ),
-                    itemCount: cubit.cartModel!.data!.cartItems!.length,
-                  ),
-                ),
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.101,
-                  child: Padding(
-                    padding: const EdgeInsetsDirectional.only(
-                        start: 20.0, end: 20.0, bottom: 20.0),
-                    child: Row(
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              'Amount Price',
-                              style: TextStyle(
-                                color: Colors.grey.shade900,
-                                fontSize: 18.0,
-                              ),
-                            ),
-                            const Spacer(),
-                            richText(
-                              text: '${cubit.cartModel!.data!.total}',
-                              size: 27.5,
-                            ),
-                          ],
+          body: cubit.cartModel!.data!.cartItems!.isNotEmpty
+              ? ConditionalBuilder(
+                  condition: cubit.cartModel != null,
+                  builder: (context) => Column(
+                    children: [
+                      const SizedBox(
+                        height: 30.0,
+                      ),
+                      Expanded(
+                        child: ListView.builder(
+                          itemBuilder: (context, index) => GestureDetector(
+                            onTap: () {
+                              navigateTo(
+                                  context,
+                                  ProductDetailsScreen(
+                                    productId: cubit.cartModel!.data!
+                                        .cartItems![index].product!.id,
+                                  ));
+                            },
+                            child: cartItemBuilder(
+                                cubit.cartModel!.data!.cartItems![index],
+                                context,
+                                index),
+                          ),
+                          itemCount: cubit.cartModel!.data!.cartItems!.length,
                         ),
-                        const Spacer(),
-                        Container(
-                          height: MediaQuery.of(context).size.height * 0.101,
-                          width: MediaQuery.of(context).size.width * 0.42,
-                          decoration: BoxDecoration(
-                              color: defaultColor,
-                              borderRadius: BorderRadius.circular(15.0)),
+                      ),
+                      SizedBox(
+                        height: MediaQuery.of(context).size.height * 0.101,
+                        child: Padding(
+                          padding: const EdgeInsetsDirectional.only(
+                              start: 20.0, end: 20.0, bottom: 20.0),
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              const Text(
-                                'Check Out',
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18.0,
-                                  fontWeight: FontWeight.w500,
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Amount Price',
+                                    style: TextStyle(
+                                      color: Colors.grey.shade900,
+                                      fontSize: 18.0,
+                                    ),
+                                  ),
+                                  const Spacer(),
+                                  richText(
+                                    text: '${cubit.cartModel!.data!.total}',
+                                    size: 27.5,
+                                  ),
+                                ],
+                              ),
+                              const Spacer(),
+                              Container(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.101,
+                                width: MediaQuery.of(context).size.width * 0.42,
+                                decoration: BoxDecoration(
+                                    color: defaultColor,
+                                    borderRadius: BorderRadius.circular(15.0)),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceEvenly,
+                                  children: [
+                                    const Text(
+                                      'Check Out',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 18.0,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                    CircleAvatar(
+                                      radius: 14.0,
+                                      child: Text(
+                                        '${cubit.cartModel!.data!.cartItems!.length}',
+                                        style: const TextStyle(
+                                          color: defaultColor,
+                                          fontWeight: FontWeight.w500,
+                                        ),
+                                      ),
+                                      backgroundColor: Colors.white,
+                                    )
+                                  ],
                                 ),
                               ),
-                              CircleAvatar(
-                                radius: 14.0,
-                                child: Text(
-                                  '${cubit.cartModel!.data!.cartItems!.length}',
-                                  style: const TextStyle(
-                                    color: defaultColor,
-                                    fontWeight: FontWeight.w500,
-                                  ),
-                                ),
-                                backgroundColor: Colors.white,
-                              )
                             ],
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ),
-              ],
-            ),
-            fallback: (context) => const Center(
-              child: CircularProgressIndicator(),
-            ),
-          ),
+                  fallback: (context) => const Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                )
+              : emptyCart(context),
         );
       },
     );

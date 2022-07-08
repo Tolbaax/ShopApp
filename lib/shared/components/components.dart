@@ -33,6 +33,8 @@ Widget defaultFormField({
                 child: Icon(
                   suffix,
                 ),
+                radius: 0.0,
+                highlightColor: Colors.transparent,
               )
             : null,
         border: const OutlineInputBorder(),
@@ -193,29 +195,3 @@ Widget backButton(context) {
 }
 
 //========================================================================
-
-Widget deleteButton(context) {
-  return InkWell(
-    onTap: () {},
-    child: Padding(
-      padding: const EdgeInsets.all(6.0),
-      child: Container(
-        width: MediaQuery.of(context).size.width * 0.12,
-        decoration: BoxDecoration(
-            color: Colors.transparent,
-            borderRadius: BorderRadius.circular(10.0),
-            border: Border.all(
-              color: defaultColor,
-            )),
-        child: const Icon(
-          Icons.delete_outline,
-          color: defaultColor,
-        ),
-      ),
-    ),
-    highlightColor: Colors.transparent,
-    radius: 0.0,
-  );
-}
-
-//===========================================================================

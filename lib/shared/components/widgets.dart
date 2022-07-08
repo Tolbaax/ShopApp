@@ -303,3 +303,91 @@ Widget cartItemBuilder(CartItems model, context, index) {
 }
 
 //===========================================================================
+
+Widget emptyCart(context) {
+  return Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      const Image(image: AssetImage('assets/images/EmptyCert.png')),
+      const SizedBox(
+        height: 30.0,
+      ),
+      const Text(
+        'Your Cart is Empty',
+        style: TextStyle(fontSize: 23.0, fontWeight: FontWeight.w600),
+      ),
+      const SizedBox(
+        height: 15.0,
+      ),
+      Text(
+        'Look like you haven\'t added\n anything to your cart yet',
+        style: TextStyle(
+          fontSize: 18.0,
+          fontWeight: FontWeight.w500,
+          color: Colors.grey.shade600,
+        ),
+        textAlign: TextAlign.center,
+      ),
+      const SizedBox(
+        height: 30.0,
+      ),
+      InkWell(
+        onTap: () {
+          Navigator.pop(context);
+        },
+        child: Container(
+          height: MediaQuery.of(context).size.height * 0.084,
+          width: MediaQuery.of(context).size.width * 0.68,
+          decoration: BoxDecoration(
+            color: defaultColor,
+            borderRadius: BorderRadius.circular(30.0),
+          ),
+          child: const Center(
+              child: Text(
+            'Start Shopping',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 23.0,
+              fontWeight: FontWeight.w500,
+            ),
+          )),
+        ),
+      ),
+    ],
+  );
+}
+
+//===========================================================================
+
+Widget emptyFavorite(context) {
+  return Column(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      const Image(image: AssetImage('assets/images/EmptyCert.png')),
+      const SizedBox(
+        height: 30.0,
+      ),
+      const Text(
+        'No Favorites Yet!',
+        style: TextStyle(fontSize: 23.0, fontWeight: FontWeight.w600),
+      ),
+      const SizedBox(
+        height: 15.0,
+      ),
+      Text(
+        'Tap on the heart to add to your favorites!\nAdd activities to your favorites, see them\nhere at a glance',
+        style: TextStyle(
+          fontSize: 18.0,
+          fontWeight: FontWeight.w500,
+          color: Colors.grey.shade600,
+        ),
+        textAlign: TextAlign.center,
+      ),
+      const SizedBox(
+        height: 30.0,
+      ),
+    ],
+  );
+}
+
+//===========================================================================

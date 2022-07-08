@@ -167,57 +167,61 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   trailing: Icon(Icons.arrow_forward_ios_rounded),
                 ),
                 const Spacer(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(
-                      Icons.logout,
-                      size: 25,
-                    ),
-                    const SizedBox(
-                      width: 10.0,
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: Text(
-                                'LOGOUT',
-                                style: TextStyle(
-                                  color: Colors.red.shade700,
-                                ),
-                              ),
-                              content: const Text('Are you sure want to exit?'),
-                              actions: [
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop();
-                                  },
-                                  child: const Text('No'),
-                                ),
-                                TextButton(
-                                  onPressed: () {
-                                    signOut(context);
-                                  },
-                                  child: const Text('Yes'),
-                                ),
-                              ],
-                              elevation: 0.0,
-                            );
-                          },
-                        );
-                      },
-                      child: const Text(
-                        'LOGOUT',
-                        style: TextStyle(
-                            fontSize: 20.0,
-                            color: Colors.grey,
-                            fontWeight: FontWeight.w500),
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.045,
+                  width: MediaQuery.of(context).size.width * 0.4,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    border: Border.all(),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(
+                        Icons.logout,
+                        size: 25,
                       ),
-                    ),
-                  ],
+                      const SizedBox(
+                        width: 10.0,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: const Text(
+                                  'LOGOUT',
+                                ),
+                                content:
+                                    const Text('Are you sure want to exit?'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: const Text('No'),
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      signOut(context);
+                                    },
+                                    child: const Text('Yes'),
+                                  ),
+                                ],
+                                elevation: 0.0,
+                              );
+                            },
+                          );
+                        },
+                        child: const Text(
+                          'LOGOUT',
+                          style: TextStyle(
+                              fontSize: 20.0, fontWeight: FontWeight.w500),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),

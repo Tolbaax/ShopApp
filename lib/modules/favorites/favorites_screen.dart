@@ -31,18 +31,21 @@ class FavoritesScreen extends StatelessWidget {
       },
       builder: (context, state) {
         ShopCubit cubit = ShopCubit.get(context);
-        return ConditionalBuilder(
-          condition: state is! ShopLoadingGetFavoritesState,
-          builder: (context) => ListView.separated(
-            itemBuilder: (context, index) => buildListProduct(
-                cubit.favoritesModel!.data!.data![index].product, context),
-            separatorBuilder: (context, index) => myDivider(),
-            itemCount: cubit.favoritesModel!.data!.data!.length,
-          ),
-          fallback: (context) => const Center(
-            child: CircularProgressIndicator(),
-          ),
-        );
+        return cubit.favoritesModel!.data!.data!.isNotEmpty
+            ? ConditionalBuilder(
+                condition: state is! ShopLoadingGetFavoritesState,
+                builder: (context) => ListView.separated(
+                  itemBuilder: (context, index) => buildListProduct(
+                      cubit.favoritesModel!.data!.data![index].product,
+                      context),
+                  separatorBuilder: (context, index) => myDivider(),
+                  itemCount: cubit.favoritesModel!.data!.data!.length,
+                ),
+                fallback: (context) => const Center(
+                  child: CircularProgressIndicator(),
+                ),
+              )
+            : emptyFavorite(context);
       },
     );
   }

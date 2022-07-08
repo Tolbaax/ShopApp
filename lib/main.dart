@@ -69,7 +69,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: light,
-        home: startWidget,
+        home: const OnBoardingScreen(),
       ),
     );
   }
