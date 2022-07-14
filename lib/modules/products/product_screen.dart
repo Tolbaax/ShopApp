@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:shop_app/models/categories_model.dart';
 import 'package:shop_app/modules/categories/categoris_details_screen.dart';
 import 'package:shop_app/shared/components/components.dart';
@@ -38,7 +39,9 @@ class ProductsScreen extends StatelessWidget {
         return cubit.homeModel != null && cubit.categoriesModel != null
             ? productBuilder(cubit.homeModel!, cubit.categoriesModel!, context)
             : const Center(
-                child: CircularProgressIndicator(),
+                child: SpinKitCubeGrid(
+                  color: defaultColor,
+                ),
               );
       },
     );

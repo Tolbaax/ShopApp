@@ -11,8 +11,9 @@ class ProductCubit extends Cubit<ProductStates> {
 
   static ProductCubit get(context) => BlocProvider.of(context);
 
-  ///Product Details
+  // Product Details
   ProductDetailsModel? productDetailsModel;
+
   void getProductDetails({required int id}) {
     emit(LoadingProductState());
     DioHelper.getData(
@@ -20,6 +21,7 @@ class ProductCubit extends Cubit<ProductStates> {
       token: token,
     ).then((value) {
       productDetailsModel = ProductDetailsModel.fromJson(value.data);
+
       emit(SuccessProductState());
     }).catchError((error) {
       emit(ErrorProductState());

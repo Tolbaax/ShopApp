@@ -1,6 +1,7 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:shop_app/modules/products/Product_details_screen.dart';
 import 'package:shop_app/shared/bloc/cubit/cubit.dart';
 import 'package:shop_app/shared/bloc/cubit/states.dart';
@@ -17,17 +18,11 @@ class CartScreen extends StatelessWidget {
     return BlocConsumer<ShopCubit, ShopStates>(
       listener: (context, state) {
         if (state is ShopSuccessChangeCartState) {
-          if (!state.model.status!) {
+          if (state.model.status!) {
             showToast(
-                text: state.model.message.toString(), state: ToastState.error);
-          } else if (state.model.status!) {
-            showToast(
-                text: state.model.message.toString(),
-                state: ToastState.success);
-          } else {
-            showToast(
-                text: state.model.message.toString(),
-                state: ToastState.warning);
+              text: state.model.message.toString(),
+              state: ToastState.success,
+            );
           }
         }
       },
@@ -44,14 +39,12 @@ class CartScreen extends StatelessWidget {
               ),
             ),
           ),
-          body: cubit.cartModel!.data!.cartItems!.isNotEmpty
+          body: cubit.cartModel != null
               ? ConditionalBuilder(
-                  condition: cubit.cartModel != null,
+                  condition: cubit.cartModel!.data!.cartItems!.isNotEmpty,
                   builder: (context) => Column(
                     children: [
-                      const SizedBox(
-                        height: 30.0,
-                      ),
+                      const SizedBox(height: 20.0),
                       Expanded(
                         child: ListView.builder(
                           itemBuilder: (context, index) => GestureDetector(
@@ -64,9 +57,10 @@ class CartScreen extends StatelessWidget {
                                   ));
                             },
                             child: cartItemBuilder(
-                                cubit.cartModel!.data!.cartItems![index],
-                                context,
-                                index),
+                              cubit.cartModel!.data!.cartItems![index],
+                              context,
+                              index,
+                            ),
                           ),
                           itemCount: cubit.cartModel!.data!.cartItems!.length,
                         ),
@@ -90,7 +84,8 @@ class CartScreen extends StatelessWidget {
                                   ),
                                   const Spacer(),
                                   richText(
-                                    text: '${cubit.cartModel!.data!.total}',
+                                    text:
+                                        '${cubit.cartModel!.data!.total.toStringAsFixed(0)}',
                                     size: 27.5,
                                   ),
                                 ],
@@ -135,11 +130,13 @@ class CartScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  fallback: (context) => const Center(
-                    child: CircularProgressIndicator(),
-                  ),
+                  fallback: (context) => emptyCart(context),
                 )
-              : emptyCart(context),
+              : const Center(
+                  child: SpinKitCubeGrid(
+                    color: defaultColor,
+                  ),
+                ),
         );
       },
     );

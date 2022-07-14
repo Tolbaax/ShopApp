@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:shop_app/models/categories_model.dart';
 import 'package:shop_app/modules/categories/categoris_details_screen.dart';
 import 'package:shop_app/shared/bloc/cubit/cubit.dart';
@@ -16,13 +17,21 @@ class CategoriesScreen extends StatelessWidget {
     return BlocConsumer<ShopCubit, ShopStates>(
       listener: (context, index) {},
       builder: (context, index) {
-        return ListView.builder(
-          itemBuilder: (context, index) => buildCatItem(
-            ShopCubit.get(context).categoriesModel!.data!.data[index],
-            context,
-          ),
-          itemCount: ShopCubit.get(context).categoriesModel!.data!.data.length,
-        );
+        ShopCubit cubit = ShopCubit.get(context);
+        return cubit.categoriesModel != null
+            ? ListView.builder(
+                itemBuilder: (context, index) => buildCatItem(
+                  ShopCubit.get(context).categoriesModel!.data!.data[index],
+                  context,
+                ),
+                itemCount:
+                    ShopCubit.get(context).categoriesModel!.data!.data.length,
+              )
+            : const Center(
+                child: SpinKitCubeGrid(
+                  color: defaultColor,
+                ),
+              );
       },
     );
   }

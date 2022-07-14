@@ -1,6 +1,7 @@
-import 'package:shop_app/models/change_cart_model.dart';
 import 'package:shop_app/models/change_favorites_model.dart';
 import 'package:shop_app/models/login_model.dart';
+
+import '../../../models/change_cart_model.dart';
 
 abstract class ShopStates {}
 

@@ -1,11 +1,13 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 import '../../shared/bloc/cubit/cubit.dart';
 import '../../shared/bloc/cubit/states.dart';
 import '../../shared/components/components.dart';
 import '../../shared/components/widgets.dart';
+import '../../shared/styles/colors.dart';
 
 class FavoritesScreen extends StatelessWidget {
   const FavoritesScreen({Key? key}) : super(key: key);
@@ -31,9 +33,9 @@ class FavoritesScreen extends StatelessWidget {
       },
       builder: (context, state) {
         ShopCubit cubit = ShopCubit.get(context);
-        return cubit.favoritesModel!.data!.data!.isNotEmpty
+        return cubit.favoritesModel != null
             ? ConditionalBuilder(
-                condition: state is! ShopLoadingGetFavoritesState,
+                condition: cubit.favoritesModel!.data!.data!.isNotEmpty,
                 builder: (context) => ListView.separated(
                   itemBuilder: (context, index) => buildListProduct(
                       cubit.favoritesModel!.data!.data![index].product,
@@ -41,11 +43,13 @@ class FavoritesScreen extends StatelessWidget {
                   separatorBuilder: (context, index) => myDivider(),
                   itemCount: cubit.favoritesModel!.data!.data!.length,
                 ),
-                fallback: (context) => const Center(
-                  child: CircularProgressIndicator(),
-                ),
+                fallback: (context) => emptyFavorite(context),
               )
-            : emptyFavorite(context);
+            : const Center(
+                child: SpinKitCubeGrid(
+                  color: defaultColor,
+                ),
+              );
       },
     );
   }

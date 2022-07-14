@@ -95,6 +95,7 @@ class ShopCubit extends Cubit<ShopStates> {
 
   // Add or delete favorite with product id
   ChangeFavoritesModel? changeFavoritesModel;
+
   void changeFavorites({
     required int productId,
   }) {
@@ -192,6 +193,35 @@ class ShopCubit extends Cubit<ShopStates> {
     });
   }
 
+  // Add or remove cart with product id
+  Map<int, dynamic> carts = {};
+  ChangeCartModel? changeCartModel;
+  void changeCart({required int productId}) {
+    emit(ShopChangeCartState());
+    DioHelper.postData(
+      url: CARTS,
+      data: {
+        'product_id': productId,
+      },
+      token: token,
+    ).then((value) {
+      changeCartModel = ChangeCartModel.fromJson(value.data);
+
+      if (!changeCartModel!.status!) {
+        carts[productId] = !carts[productId];
+      } else {
+        getCarts();
+      }
+      emit(ShopSuccessChangeCartState(changeCartModel!));
+    }).catchError((error) {
+      carts[productId] = !carts[productId];
+      emit(ShopErrorChangeCartState());
+      if (kDebugMode) {
+        print(error.toString());
+      }
+    });
+  }
+
   // Get Carts
   CartModel? cartModel;
   void getCarts() {
@@ -204,28 +234,6 @@ class ShopCubit extends Cubit<ShopStates> {
       emit(ShopSuccessGetCartsState());
     }).catchError((error) {
       emit(ShopErrorGetCartsState());
-      if (kDebugMode) {
-        print(error.toString());
-      }
-    });
-  }
-
-  // Add or remove cart with product id
-  ChangeCartModel? changeCartModel;
-  void changeCart({required int productId}) {
-    emit(ShopChangeCartState());
-    DioHelper.postData(
-      url: CARTS,
-      data: {
-        'product_id': productId,
-      },
-      token: token,
-    ).then((value) {
-      changeCartModel = ChangeCartModel.fromJson(value.data);
-      getCarts();
-      emit(ShopSuccessChangeCartState(changeCartModel!));
-    }).catchError((error) {
-      emit(ShopErrorChangeCartState());
       if (kDebugMode) {
         print(error.toString());
       }
