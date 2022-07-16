@@ -53,17 +53,12 @@ Widget defaultButton({
       width: width,
       height: height,
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(5.0),
-        color: backgroundColor,
-      ),
+          borderRadius: BorderRadius.circular(5.0), color: backgroundColor),
       child: MaterialButton(
         onPressed: function,
         child: Text(
           text,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 18,
-          ),
+          style: const TextStyle(color: Colors.white, fontSize: 18),
         ),
       ),
     );
@@ -79,10 +74,7 @@ void navigateAndRemoveUntil(context, widget) => Navigator.pushAndRemoveUntil(
 Widget myDivider() => Padding(
       padding: const EdgeInsetsDirectional.only(start: 20.0),
       child: Container(
-        width: double.infinity,
-        height: 1.0,
-        color: Colors.grey[300],
-      ),
+          width: double.infinity, height: 1.0, color: Colors.grey[300]),
     );
 
 //===============================================================
@@ -91,13 +83,14 @@ void showToast({
   required ToastState state,
 }) =>
     Fluttertoast.showToast(
-        msg: text,
-        toastLength: Toast.LENGTH_LONG,
-        gravity: ToastGravity.BOTTOM,
-        timeInSecForIosWeb: 2,
-        backgroundColor: chooseToastColor(state),
-        textColor: Colors.white,
-        fontSize: 16.0);
+      msg: text,
+      toastLength: Toast.LENGTH_LONG,
+      gravity: ToastGravity.BOTTOM,
+      timeInSecForIosWeb: 2,
+      backgroundColor: chooseToastColor(state),
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
 
 // enum
 enum ToastState { success, error, warning }
@@ -152,18 +145,11 @@ Widget richText({
       offset: const Offset(-1, -5),
       child: Text(
         '\$',
-        style: TextStyle(
-          color: color,
-        ),
+        style: TextStyle(color: color),
         textScaleFactor: 1.15,
       ),
     )),
-    TextSpan(
-        text: text,
-        style: TextStyle(
-          fontSize: size,
-          color: color,
-        )),
+    TextSpan(text: text, style: TextStyle(fontSize: size, color: color)),
   ]));
 }
 
@@ -183,10 +169,7 @@ Widget backButton(context) {
             border: Border.all(
               color: defaultColor,
             )),
-        child: const Icon(
-          Icons.arrow_back_ios_new,
-          color: defaultColor,
-        ),
+        child: const Icon(Icons.arrow_back_ios_new, color: defaultColor),
       ),
       highlightColor: Colors.transparent,
       radius: 0.0,

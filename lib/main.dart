@@ -4,6 +4,7 @@ import 'package:shop_app/layout/shop_layout.dart';
 import 'package:shop_app/modules/login/cubit/cubit.dart';
 import 'package:shop_app/modules/login/login_screen.dart';
 import 'package:shop_app/modules/on_boardng/on_boarding_screen.dart';
+import 'package:shop_app/modules/search/cubit/cubit.dart';
 import 'package:shop_app/shared/bloc/cubit/cubit.dart';
 import 'package:shop_app/shared/components/constants.dart';
 import 'package:shop_app/shared/network/local/cache_helper.dart';
@@ -64,6 +65,9 @@ class MyApp extends StatelessWidget {
             ..getFavorites()
             ..getUserData()
             ..getCarts(),
+        ),
+        BlocProvider(
+          create: (context) => SearchCubit(),
         ),
       ],
       child: MaterialApp(

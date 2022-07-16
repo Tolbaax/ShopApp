@@ -126,6 +126,7 @@ Widget buildListProduct(model, context, {bool isOldPrice = true}) {
 //============================================================================
 
 Widget cartItemBuilder(CartItems model, context, index) {
+  ShopCubit cubit = ShopCubit.get(context);
   return Padding(
     padding: const EdgeInsetsDirectional.only(start: 20.0, end: 20.0),
     child: Column(
@@ -210,7 +211,15 @@ Widget cartItemBuilder(CartItems model, context, index) {
                       child: Row(
                         children: [
                           InkWell(
-                            onTap: () {},
+                            onTap: () {
+                              cubit.plusQuantity(
+                                  ShopCubit.get(context).cartModel!, index);
+                              cubit.updateCart(
+                                id: cubit.cartModel!.data!.cartItems![index].id
+                                    .toString(),
+                                quantity: cubit.quantity,
+                              );
+                            },
                             child: Container(
                               height:
                                   MediaQuery.of(context).size.height * 0.035,
@@ -243,7 +252,15 @@ Widget cartItemBuilder(CartItems model, context, index) {
                             ),
                           ),
                           InkWell(
-                            onTap: () {},
+                            onTap: () {
+                              cubit.minusQuantity(
+                                  ShopCubit.get(context).cartModel!, index);
+                              cubit.updateCart(
+                                id: cubit.cartModel!.data!.cartItems![index].id
+                                    .toString(),
+                                quantity: cubit.quantity,
+                              );
+                            },
                             child: Container(
                               height:
                                   MediaQuery.of(context).size.height * 0.035,
@@ -261,7 +278,6 @@ Widget cartItemBuilder(CartItems model, context, index) {
                               ),
                             ),
                             highlightColor: Colors.transparent,
-                            radius: 0.0,
                           ),
                           const Spacer(),
                           InkWell(
@@ -487,25 +503,28 @@ Widget productDetailsItem(context, imagesController, productId) {
             const SizedBox(
               height: 5,
             ),
-            if (cubit.productDetailsModel!.data!.discount != 0)
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(8.0),
-                  color: Colors.deepOrange,
+            Row(
+              children: [
+                richText(
+                  text: '${cubit.productDetailsModel!.data!.price}',
+                  size: 25.0,
                 ),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 5.0, vertical: 2.0),
-                child: const Text(
-                  'DISCOUNT',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 12.0,
-                    fontWeight: FontWeight.w500,
+                const SizedBox(
+                  width: 10,
+                ),
+                if (cubit.productDetailsModel!.data!.discount != 0)
+                  Text(
+                    '${cubit.productDetailsModel!.data!.oldPrice}',
+                    style: const TextStyle(
+                      color: Colors.grey,
+                      decoration: TextDecoration.lineThrough,
+                      fontSize: 17,
+                    ),
                   ),
-                ),
-              ),
+              ],
+            ),
             const SizedBox(
-              height: 25.0,
+              height: 15.0,
             ),
             const Text(
               'Description',
@@ -543,78 +562,37 @@ Widget productDetailsItem(context, imagesController, productId) {
         padding: const EdgeInsetsDirectional.only(
           start: 20.0,
           end: 20.0,
-          bottom: 25.0,
+          bottom: 15.0,
         ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            richText(
-                text: '${cubit.productDetailsModel!.data!.price}', size: 25.0),
-            Container(
-              height: MediaQuery.of(context).size.height * 0.063,
-              width: MediaQuery.of(context).size.width * 0.36,
-              decoration: BoxDecoration(
-                  color: Colors.transparent,
-                  borderRadius: BorderRadius.circular(10.0),
-                  border: Border.all(
-                    color: defaultColor,
-                  )),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  IconButton(
-                    icon: Icon(
-                      Icons.remove,
-                      color: Colors.grey.shade600,
-                    ),
-                    onPressed: () {},
-                    splashRadius: 20,
-                    splashColor: defaultColor,
-                  ),
-                  const Text(
-                    '1',
-                    style: TextStyle(
-                      fontSize: 22.0,
-                      color: defaultColor,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  IconButton(
-                    icon: Icon(
-                      Icons.add,
-                      color: Colors.grey.shade600,
-                    ),
-                    onPressed: () {},
-                    splashRadius: 20,
-                    splashColor: defaultColor,
-                  ),
-                ],
-              ),
-            ),
-            InkWell(
-              onTap: () {
-                ShopCubit.get(context)
-                    .changeCart(productId: cubit.productDetailsModel!.data!.id);
-              },
-              child: Container(
-                height: MediaQuery.of(context).size.height * 0.075,
-                width: MediaQuery.of(context).size.width * 0.15,
-                decoration: BoxDecoration(
-                  color: (cubit.productDetailsModel!.data!.inCart)
-                      ? defaultColor
-                      : Colors.grey,
-                  borderRadius: BorderRadius.circular(15.0),
-                ),
-                child: const Center(
-                  child: Icon(
-                    Icons.shopping_cart,
+        child: InkWell(
+          onTap: () {
+            ShopCubit.get(context)
+                .changeCart(productId: cubit.productDetailsModel!.data!.id);
+          },
+          child: Container(
+            height: MediaQuery.of(context).size.height * 0.07,
+            width: MediaQuery.of(context).size.width * 1,
+            decoration: BoxDecoration(
+                color: (cubit.productDetailsModel!.data!.inCart)
+                    ? defaultColor
+                    : Colors.grey,
+                borderRadius: BorderRadius.circular(20.0)),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Text(
+                  (cubit.productDetailsModel!.data!.inCart)
+                      ? 'Added to cart'
+                      : 'Add to cart',
+                  style: const TextStyle(
                     color: Colors.white,
-                    size: 26.0,
+                    fontSize: 20.0,
+                    fontWeight: FontWeight.w500,
                   ),
                 ),
-              ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     ],

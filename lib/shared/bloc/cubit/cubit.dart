@@ -239,4 +239,38 @@ class ShopCubit extends Cubit<ShopStates> {
       }
     });
   }
+
+  // Plus and minus quantity in cart
+  int quantity = 1;
+  void plusQuantity(CartModel model, index) {
+    quantity = model.data!.cartItems![index].quantity;
+    quantity++;
+    emit(ShopPlusQuantityState());
+  }
+
+  void minusQuantity(CartModel model, index) {
+    quantity = model.data!.cartItems![index].quantity;
+    if (quantity > 1) quantity--;
+    emit(ShopMinusQuantityState());
+  }
+
+  // Update Cart
+  void updateCart({required String id, required int quantity}) {
+    emit(ShopLoadingUpdateCartState());
+    DioHelper.putData(
+      url: UPDATECARTS + id,
+      data: {
+        'quantity': quantity,
+      },
+      token: token,
+    ).then((value) {
+      emit(ShopSuccessUpdateCartState());
+      getCarts();
+    }).catchError((error) {
+      emit(ShopErrorUpdateCartState());
+      if (kDebugMode) {
+        print(error.toString());
+      }
+    });
+  }
 }

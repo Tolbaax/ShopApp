@@ -33,6 +33,14 @@ class ProductsScreen extends StatelessWidget {
                 state: ToastState.warning);
           }
         }
+        if (state is ShopSuccessChangeCartState) {
+          if (state.model.status!) {
+            showToast(
+              text: state.model.message.toString(),
+              state: ToastState.success,
+            );
+          }
+        }
       },
       builder: (context, state) {
         ShopCubit cubit = ShopCubit.get(context);
