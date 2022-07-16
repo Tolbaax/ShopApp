@@ -108,7 +108,10 @@ Widget buildListProduct(model, context, {bool isOldPrice = true}) {
                             ? Colors.grey
                             : defaultColor,
                         onPressed: () {
-                          cubit.changeFavorites(productId: model.id);
+                          cubit.changeFavorites(
+                            productId: model.id,
+                            context: context,
+                          );
                         },
                       ),
                     ],
@@ -289,6 +292,13 @@ Widget cartItemBuilder(CartItems model, context, index) {
                                     .cartItems![index]
                                     .product!
                                     .id,
+                                context: context,
+                                id: ShopCubit.get(context)
+                                    .cartModel!
+                                    .data!
+                                    .cartItems![index]
+                                    .product!
+                                    .id,
                               );
                             },
                             child: Container(
@@ -412,7 +422,7 @@ Widget emptyFavorite(context) {
 
 //===========================================================================
 
-Widget productDetailsItem(context, imagesController, productId) {
+Widget productDetailsItem(context, imagesController, productId, id) {
   ProductCubit cubit = ProductCubit.get(context);
   return Column(
     children: [
@@ -494,8 +504,7 @@ Widget productDetailsItem(context, imagesController, productId) {
                       : defaultColor,
                   onPressed: () {
                     ShopCubit.get(context).changeFavorites(
-                      productId: productId,
-                    );
+                        productId: productId, context: context, id: productId);
                   },
                 ),
               ],
@@ -566,8 +575,11 @@ Widget productDetailsItem(context, imagesController, productId) {
         ),
         child: InkWell(
           onTap: () {
-            ShopCubit.get(context)
-                .changeCart(productId: cubit.productDetailsModel!.data!.id);
+            ShopCubit.get(context).changeCart(
+              productId: cubit.productDetailsModel!.data!.id,
+              context: context,
+              id: id,
+            );
           },
           child: Container(
             height: MediaQuery.of(context).size.height * 0.07,

@@ -33,6 +33,7 @@ class ProductDetailsScreen extends StatelessWidget {
                   context,
                   imagesController,
                   productId,
+                  productId,
                 );
               },
               fallback: (context) => const Center(

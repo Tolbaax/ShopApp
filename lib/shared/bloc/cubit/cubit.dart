@@ -9,6 +9,7 @@ import 'package:shop_app/models/home_mode;.dart';
 import 'package:shop_app/models/login_model.dart';
 import 'package:shop_app/modules/categories/categories_screen.dart';
 import 'package:shop_app/modules/favorites/favorites_screen.dart';
+import 'package:shop_app/modules/products/cubit/cubit.dart';
 import 'package:shop_app/modules/products/product_screen.dart';
 import 'package:shop_app/modules/settings/settings_screen.dart';
 import 'package:shop_app/shared/bloc/cubit/states.dart';
@@ -96,9 +97,8 @@ class ShopCubit extends Cubit<ShopStates> {
   // Add or delete favorite with product id
   ChangeFavoritesModel? changeFavoritesModel;
 
-  void changeFavorites({
-    required int productId,
-  }) {
+  void changeFavorites(
+      {required int productId, required BuildContext context, var id}) {
     favorites[productId] = !favorites[productId];
     emit(ShopChangeFavoritesState());
     DioHelper.postData(
@@ -109,13 +109,12 @@ class ShopCubit extends Cubit<ShopStates> {
       token: token,
     ).then((value) {
       changeFavoritesModel = ChangeFavoritesModel.fromJson(value.data);
-
       if (!changeFavoritesModel!.status!) {
         favorites[productId] = !favorites[productId];
       } else {
         getFavorites();
       }
-
+      ProductCubit.get(context).getProductDetails(id: id);
       emit(ShopSuccessChangeFavoritesState(changeFavoritesModel!));
     }).catchError((error) {
       favorites[productId] = !favorites[productId];
@@ -196,7 +195,7 @@ class ShopCubit extends Cubit<ShopStates> {
   // Add or remove cart with product id
   Map<int, dynamic> carts = {};
   ChangeCartModel? changeCartModel;
-  void changeCart({required int productId}) {
+  void changeCart({required int productId, context, required int id}) {
     emit(ShopChangeCartState());
     DioHelper.postData(
       url: CARTS,
@@ -206,15 +205,10 @@ class ShopCubit extends Cubit<ShopStates> {
       token: token,
     ).then((value) {
       changeCartModel = ChangeCartModel.fromJson(value.data);
-
-      if (!changeCartModel!.status!) {
-        carts[productId] = !carts[productId];
-      } else {
-        getCarts();
-      }
+      getCarts();
+      ProductCubit.get(context).getProductDetails(id: id);
       emit(ShopSuccessChangeCartState(changeCartModel!));
     }).catchError((error) {
-      carts[productId] = !carts[productId];
       emit(ShopErrorChangeCartState());
       if (kDebugMode) {
         print(error.toString());
