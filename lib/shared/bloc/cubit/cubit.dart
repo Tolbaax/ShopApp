@@ -97,8 +97,7 @@ class ShopCubit extends Cubit<ShopStates> {
   // Add or delete favorite with product id
   ChangeFavoritesModel? changeFavoritesModel;
 
-  void changeFavorites(
-      {required int productId, required BuildContext context, var id}) {
+  void changeFavorites({required int productId}) {
     favorites[productId] = !favorites[productId];
     emit(ShopChangeFavoritesState());
     DioHelper.postData(
@@ -114,10 +113,8 @@ class ShopCubit extends Cubit<ShopStates> {
       } else {
         getFavorites();
       }
-      ProductCubit.get(context).getProductDetails(id: id);
       emit(ShopSuccessChangeFavoritesState(changeFavoritesModel!));
     }).catchError((error) {
-      favorites[productId] = !favorites[productId];
       if (kDebugMode) {
         print(error.toString());
       }

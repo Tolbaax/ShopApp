@@ -33,6 +33,14 @@ class ProductsScreen extends StatelessWidget {
                 state: ToastState.warning);
           }
         }
+        if (state is ShopSuccessChangeCartState) {
+          if (state.model.status!) {
+            showToast(
+              text: state.model.message.toString(),
+              state: ToastState.success,
+            );
+          }
+        }
       },
       builder: (context, state) {
         ShopCubit cubit = ShopCubit.get(context);
@@ -264,7 +272,8 @@ class ProductsScreen extends StatelessWidget {
                           : defaultColor,
                       onPressed: () {
                         cubit.changeFavorites(
-                            productId: model.id, context: context,);
+                          productId: model.id,
+                        );
                       },
                     ),
                   ],

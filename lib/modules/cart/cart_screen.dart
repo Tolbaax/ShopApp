@@ -2,6 +2,7 @@ import 'package:conditional_builder_null_safety/conditional_builder_null_safety.
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:shop_app/modules/payment/payment_screen.dart';
 import 'package:shop_app/modules/products/Product_details_screen.dart';
 import 'package:shop_app/shared/bloc/cubit/cubit.dart';
 import 'package:shop_app/shared/bloc/cubit/states.dart';
@@ -91,37 +92,44 @@ class CartScreen extends StatelessWidget {
                                 ],
                               ),
                               const Spacer(),
-                              Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.101,
-                                width: MediaQuery.of(context).size.width * 0.42,
-                                decoration: BoxDecoration(
-                                    color: defaultColor,
-                                    borderRadius: BorderRadius.circular(15.0)),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceEvenly,
-                                  children: [
-                                    const Text(
-                                      'Check Out',
-                                      style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 18.0,
-                                        fontWeight: FontWeight.w500,
-                                      ),
-                                    ),
-                                    CircleAvatar(
-                                      radius: 14.0,
-                                      child: Text(
-                                        '${cubit.cartModel!.data!.cartItems!.length}',
-                                        style: const TextStyle(
-                                          color: defaultColor,
+                              InkWell(
+                                onTap: () {
+                                  navigateTo(context, const PaymentScreen());
+                                },
+                                child: Container(
+                                  height: MediaQuery.of(context).size.height *
+                                      0.101,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.42,
+                                  decoration: BoxDecoration(
+                                      color: defaultColor,
+                                      borderRadius:
+                                          BorderRadius.circular(15.0)),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceEvenly,
+                                    children: [
+                                      const Text(
+                                        'Check Out',
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 18.0,
                                           fontWeight: FontWeight.w500,
                                         ),
                                       ),
-                                      backgroundColor: Colors.white,
-                                    )
-                                  ],
+                                      CircleAvatar(
+                                        radius: 14.0,
+                                        child: Text(
+                                          '${cubit.cartModel!.data!.cartItems!.length}',
+                                          style: const TextStyle(
+                                            color: defaultColor,
+                                            fontWeight: FontWeight.w500,
+                                          ),
+                                        ),
+                                        backgroundColor: Colors.white,
+                                      )
+                                    ],
+                                  ),
                                 ),
                               ),
                             ],

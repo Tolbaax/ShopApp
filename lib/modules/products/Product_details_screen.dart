@@ -30,11 +30,7 @@ class ProductDetailsScreen extends StatelessWidget {
               condition: cubit.productDetailsModel != null,
               builder: (context) {
                 return productDetailsItem(
-                  context,
-                  imagesController,
-                  productId,
-                  productId,
-                );
+                    context, imagesController, productId, productId);
               },
               fallback: (context) => const Center(
                 child: SpinKitCubeGrid(

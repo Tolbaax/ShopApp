@@ -110,7 +110,6 @@ Widget buildListProduct(model, context, {bool isOldPrice = true}) {
                         onPressed: () {
                           cubit.changeFavorites(
                             productId: model.id,
-                            context: context,
                           );
                         },
                       ),
@@ -504,7 +503,8 @@ Widget productDetailsItem(context, imagesController, productId, id) {
                       : defaultColor,
                   onPressed: () {
                     ShopCubit.get(context).changeFavorites(
-                        productId: productId, context: context, id: productId);
+                      productId: productId,
+                    );
                   },
                 ),
               ],
@@ -590,7 +590,7 @@ Widget productDetailsItem(context, imagesController, productId, id) {
                     : Colors.grey,
                 borderRadius: BorderRadius.circular(20.0)),
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
                   (cubit.productDetailsModel!.data!.inCart)
@@ -602,6 +602,13 @@ Widget productDetailsItem(context, imagesController, productId, id) {
                     fontWeight: FontWeight.w500,
                   ),
                 ),
+                const SizedBox(
+                  width: 10,
+                ),
+                const Icon(
+                  Icons.shopping_cart,
+                  color: Colors.white,
+                )
               ],
             ),
           ),
