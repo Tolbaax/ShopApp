@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:shop_app/models/payment_model.dart';
+import 'package:shop_app/modules/payment/payment_details_screen.dart';
 
 import '../../shared/bloc/cubit/cubit.dart';
 import '../../shared/components/components.dart';
 
 class PaymentScreen extends StatelessWidget {
-  const PaymentScreen({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.blueGrey.shade800,
         body: Stack(
           clipBehavior: Clip.none,
           children: [
-            SizedBox(
+            Container(
+              color: Colors.blueGrey.shade800,
+              height: MediaQuery.of(context).size.height * 0.3,
               child: Padding(
                 padding: const EdgeInsetsDirectional.only(
                     top: 15, start: 10, end: 20),
@@ -31,7 +32,7 @@ class PaymentScreen extends StatelessWidget {
                         color: Colors.white,
                       ),
                     ),
-                    const SizedBox(width: 60.0),
+                    const SizedBox(width: 85.0),
                     const Text(
                       'Payment Methods',
                       style: TextStyle(
@@ -58,14 +59,53 @@ class PaymentScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(
-                    height: 120.0,
+                    height: 100.0,
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 30.0,
+                      vertical: 15.0,
+                    ),
                     child: Text(
                       'Other Payment Methods',
                       style:
-                          TextStyle(fontSize: 21, color: Colors.grey.shade600),
+                          TextStyle(fontSize: 22, color: Colors.grey.shade600),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsetsDirectional.only(start: 65.0),
+                    child: SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.355,
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      child: ListView.separated(
+                        itemBuilder: (context, index) {
+                          return Row(
+                            children: [
+                              SizedBox(
+                                  height: 35.0,
+                                  width: 35.0,
+                                  child: Image(
+                                    image: NetworkImage(
+                                      '${paymentList[index].imageUrl}',
+                                    ),
+                                  )),
+                              const SizedBox(
+                                width: 20,
+                              ),
+                              Text(
+                                '${paymentList[index].name}',
+                                style: const TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              )
+                            ],
+                          );
+                        },
+                        separatorBuilder: (context, index) =>
+                            const SizedBox(height: 20.0),
+                        itemCount: paymentList.length,
+                      ),
                     ),
                   ),
                   const Spacer(),
@@ -120,7 +160,10 @@ class PaymentScreen extends StatelessWidget {
                                 height: 5,
                               ),
                               InkWell(
-                                onTap: () {},
+                                onTap: () {
+                                  navigateTo(
+                                      context, const PaymentDetailsScreen());
+                                },
                                 child: const Text(
                                   'View Details',
                                   style: TextStyle(
@@ -148,8 +191,8 @@ class PaymentScreen extends StatelessWidget {
                     width: 10.0,
                   ),
                   Container(
-                    height: 160.0,
-                    width: 70,
+                    height: MediaQuery.of(context).size.height * 0.22,
+                    width: MediaQuery.of(context).size.width * 0.18,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(25.0),
                       color: Colors.white,
@@ -174,7 +217,7 @@ class PaymentScreen extends StatelessWidget {
                   ),
                   Expanded(
                     child: SizedBox(
-                      height: 160.0,
+                      height: MediaQuery.of(context).size.height * 0.22,
                       width: double.infinity,
                       child: ListView.separated(
                         physics: const BouncingScrollPhysics(),
@@ -185,16 +228,20 @@ class PaymentScreen extends StatelessWidget {
                               height: 120,
                               width: MediaQuery.of(context).size.width / 1.8,
                               decoration: BoxDecoration(
-                                color: Colors.deepPurple,
-                                borderRadius: BorderRadius.circular(15.0),
-                              ),
+                                  color: Colors.grey.shade300,
+                                  borderRadius: BorderRadius.circular(15.0),
+                                  image: DecorationImage(
+                                      image: NetworkImage(
+                                        '${paymentCategory[index].imageUrl}',
+                                      ),
+                                      fit: BoxFit.cover)),
                             ),
                           );
                         },
                         separatorBuilder: (context, index) => const SizedBox(
                           width: 10.0,
                         ),
-                        itemCount: 6,
+                        itemCount: paymentCategory.length,
                         scrollDirection: Axis.horizontal,
                       ),
                     ),

@@ -94,7 +94,7 @@ class CartScreen extends StatelessWidget {
                               const Spacer(),
                               InkWell(
                                 onTap: () {
-                                  navigateTo(context, const PaymentScreen());
+                                  navigateTo(context, PaymentScreen());
                                 },
                                 child: Container(
                                   height: MediaQuery.of(context).size.height *
