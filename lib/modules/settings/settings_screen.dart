@@ -17,6 +17,7 @@ class SettingsScreen extends StatefulWidget {
 class _SettingsScreenState extends State<SettingsScreen> {
   @override
   Widget build(BuildContext context) {
+    var screenSize = MediaQuery.of(context).size;
     return BlocConsumer<ShopCubit, ShopStates>(
       listener: (context, state) {},
       builder: (context, state) {
@@ -32,7 +33,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       size: 28,
                     ),
                     SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.02,
+                      width: screenSize.width * 0.02,
                     ),
                     const Text(
                       'Account',
@@ -86,7 +87,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                   trailing: Icon(Icons.arrow_forward_ios_rounded),
                 ),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.035,
+                  height: screenSize.height * 0.035,
                 ),
                 Row(
                   children: [
@@ -95,7 +96,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                       size: 28,
                     ),
                     SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.02,
+                      width: screenSize.width * 0.02,
                     ),
                     const Text(
                       'General',
@@ -168,8 +169,8 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 ),
                 const Spacer(),
                 Container(
-                  height: MediaQuery.of(context).size.height * 0.045,
-                  width: MediaQuery.of(context).size.width * 0.4,
+                  height: screenSize.height * 0.045,
+                  width: screenSize.width * 0.4,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10.0),
                     border: Border.all(),

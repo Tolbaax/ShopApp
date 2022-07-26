@@ -27,6 +27,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var screenSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         actions: [
@@ -52,7 +53,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         child: Column(
           children: [
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.675,
+              height: screenSize.height * 0.675,
               child: PageView.builder(
                 itemBuilder: (context, index) => buildPageView(boarding[index]),
                 physics: const BouncingScrollPhysics(),
@@ -82,8 +83,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
             ),
             const Spacer(),
             Container(
-              height: MediaQuery.of(context).size.height * 0.076,
-              width: MediaQuery.of(context).size.width * 0.53,
+              height: screenSize.height * 0.076,
+              width: screenSize.width * 0.53,
               decoration: BoxDecoration(
                   color: defaultColor,
                   borderRadius: BorderRadius.circular(15.0)),

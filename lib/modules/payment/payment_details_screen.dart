@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shop_app/shared/components/components.dart';
 
 class PaymentDetailsScreen extends StatelessWidget {
   const PaymentDetailsScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var screenSize = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
         body: SingleChildScrollView(
@@ -14,7 +16,7 @@ class PaymentDetailsScreen extends StatelessWidget {
             children: [
               Container(
                 color: Colors.blueGrey.shade800,
-                height: MediaQuery.of(context).size.height * 0.3,
+                height: screenSize.height * 0.3,
                 child: Padding(
                   padding: const EdgeInsetsDirectional.only(
                       top: 15, start: 10, end: 20),
@@ -44,7 +46,7 @@ class PaymentDetailsScreen extends StatelessWidget {
                 ),
               ),
               Container(
-                height: MediaQuery.of(context).size.height * 0.725,
+                height: screenSize.height * 0.725,
                 width: double.infinity,
                 decoration: const BoxDecoration(
                     color: Colors.white,
@@ -72,29 +74,12 @@ class PaymentDetailsScreen extends StatelessWidget {
                       const SizedBox(
                         height: 15,
                       ),
-                      TextFormField(
+                      paymentFormFiled(
+                        hintText: 'xxxx xxxx xxxx xxxx',
                         inputFormatters: [
                           FilteringTextInputFormatter.digitsOnly,
                           CardNumberFormatter(),
                         ],
-                        decoration: InputDecoration(
-                          hintText: 'xxxx xxxx xxxx xxxx',
-                          fillColor: Colors.grey.shade200,
-                          filled: true,
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: const BorderSide(
-                              color: Colors.grey,
-                            ),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(
-                              color: Colors.grey.shade200,
-                              width: 2.0,
-                            ),
-                          ),
-                        ),
                         maxLength: 19,
                         keyboardType: TextInputType.number,
                       ),
@@ -118,32 +103,15 @@ class PaymentDetailsScreen extends StatelessWidget {
                                 height: 15,
                               ),
                               SizedBox(
-                                width: MediaQuery.of(context).size.width / 3,
-                                child: TextFormField(
+                                width: screenSize.width / 3,
+                                child: paymentFormFiled(
+                                  hintText: 'MM/YY',
                                   inputFormatters: [
                                     FilteringTextInputFormatter.digitsOnly,
                                     CardExpirationFormatter(),
                                   ],
-                                  decoration: InputDecoration(
-                                    hintText: 'MM/YY',
-                                    fillColor: Colors.grey.shade200,
-                                    filled: true,
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      borderSide: const BorderSide(
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      borderSide: BorderSide(
-                                        color: Colors.grey.shade200,
-                                        width: 2.0,
-                                      ),
-                                    ),
-                                  ),
-                                  keyboardType: TextInputType.number,
                                   maxLength: 5,
+                                  keyboardType: TextInputType.number,
                                 ),
                               )
                             ],
@@ -162,28 +130,11 @@ class PaymentDetailsScreen extends StatelessWidget {
                                 height: 15,
                               ),
                               SizedBox(
-                                width: MediaQuery.of(context).size.width / 3,
-                                child: TextFormField(
-                                  decoration: InputDecoration(
-                                    hintText: '548',
-                                    fillColor: Colors.grey.shade200,
-                                    filled: true,
-                                    focusedBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      borderSide: const BorderSide(
-                                        color: Colors.grey,
-                                      ),
-                                    ),
-                                    enabledBorder: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(10.0),
-                                      borderSide: BorderSide(
-                                        color: Colors.grey.shade200,
-                                        width: 2.0,
-                                      ),
-                                    ),
-                                  ),
-                                  keyboardType: TextInputType.number,
+                                width: screenSize.width / 3,
+                                child: paymentFormFiled(
+                                  hintText: 'xxx',
                                   maxLength: 3,
+                                  keyboardType: TextInputType.number,
                                 ),
                               )
                             ],
@@ -203,33 +154,17 @@ class PaymentDetailsScreen extends StatelessWidget {
                       const SizedBox(
                         height: 15,
                       ),
-                      TextFormField(
-                        decoration: InputDecoration(
-                          hintText: 'Enter Your Name',
-                          fillColor: Colors.grey.shade200,
-                          filled: true,
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: const BorderSide(
-                              color: Colors.grey,
-                            ),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10.0),
-                            borderSide: BorderSide(
-                              color: Colors.grey.shade200,
-                              width: 2.0,
-                            ),
-                          ),
-                        ),
+                      paymentFormFiled(
+                        hintText: 'Enter Your Name',
+                        keyboardType: TextInputType.name,
                       ),
                       const SizedBox(
                         height: 20.0,
                       ),
                       Center(
                         child: Container(
-                          height: MediaQuery.of(context).size.height * 0.07,
-                          width: MediaQuery.of(context).size.width * 0.5,
+                          height: screenSize.height * 0.07,
+                          width: screenSize.width * 0.5,
                           decoration: BoxDecoration(
                             color: Colors.blueGrey.shade800,
                             borderRadius: BorderRadius.circular(30.0),
@@ -258,7 +193,7 @@ class PaymentDetailsScreen extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Container(
-                        height: MediaQuery.of(context).size.height / 4.5,
+                        height: screenSize.height / 4.5,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(15.0),
                             image: const DecorationImage(

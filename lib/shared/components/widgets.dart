@@ -129,6 +129,7 @@ Widget buildListProduct(model, context, {bool isOldPrice = true}) {
 
 Widget cartItemBuilder(CartItems model, context, index) {
   ShopCubit cubit = ShopCubit.get(context);
+  var screenSize = MediaQuery.of(context).size;
   return Padding(
     padding: const EdgeInsetsDirectional.only(start: 20.0, end: 20.0),
     child: Column(
@@ -144,7 +145,7 @@ Widget cartItemBuilder(CartItems model, context, index) {
               width: 5.0,
             ),
             SizedBox(
-              width: MediaQuery.of(context).size.width / 5,
+              width: screenSize.width / 5,
               child: Text(
                 '${model.product!.name}',
                 style: const TextStyle(
@@ -167,12 +168,12 @@ Widget cartItemBuilder(CartItems model, context, index) {
         Padding(
           padding: const EdgeInsetsDirectional.only(top: 15.0, bottom: 15.0),
           child: SizedBox(
-            height: MediaQuery.of(context).size.height * 0.177,
+            height: screenSize.height * 0.177,
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  width: MediaQuery.of(context).size.width * 0.27,
+                  width: screenSize.width * 0.27,
                   decoration: BoxDecoration(
                       color: Colors.transparent,
                       borderRadius: BorderRadius.circular(15.0),
@@ -189,7 +190,7 @@ Widget cartItemBuilder(CartItems model, context, index) {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(
-                      width: MediaQuery.of(context).size.width / 3,
+                      width: screenSize.width / 3,
                       child: Text(
                         '${model.product!.name}',
                         style: const TextStyle(
@@ -209,7 +210,7 @@ Widget cartItemBuilder(CartItems model, context, index) {
                     ),
                     const Spacer(),
                     SizedBox(
-                      width: MediaQuery.of(context).size.width / 1.69,
+                      width: screenSize.width / 1.69,
                       child: Row(
                         children: [
                           InkWell(
@@ -223,9 +224,8 @@ Widget cartItemBuilder(CartItems model, context, index) {
                               );
                             },
                             child: Container(
-                              height:
-                                  MediaQuery.of(context).size.height * 0.035,
-                              width: MediaQuery.of(context).size.width * 0.068,
+                              height: screenSize.height * 0.035,
+                              width: screenSize.width * 0.068,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(30.0),
                                 border: Border.all(
@@ -264,9 +264,8 @@ Widget cartItemBuilder(CartItems model, context, index) {
                               );
                             },
                             child: Container(
-                              height:
-                                  MediaQuery.of(context).size.height * 0.035,
-                              width: MediaQuery.of(context).size.width * 0.068,
+                              height: screenSize.height * 0.035,
+                              width: screenSize.width * 0.068,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(30.0),
                                 border: Border.all(
@@ -301,9 +300,8 @@ Widget cartItemBuilder(CartItems model, context, index) {
                               );
                             },
                             child: Container(
-                              height:
-                                  MediaQuery.of(context).size.height * 0.039,
-                              width: MediaQuery.of(context).size.width * 0.075,
+                              height: screenSize.height * 0.039,
+                              width: screenSize.width * 0.075,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(30.0),
                                 color: defaultColor,
@@ -334,6 +332,7 @@ Widget cartItemBuilder(CartItems model, context, index) {
 //===========================================================================
 
 Widget emptyCart(context) {
+  var screenSize = MediaQuery.of(context).size;
   return Column(
     mainAxisAlignment: MainAxisAlignment.center,
     children: [
@@ -365,8 +364,8 @@ Widget emptyCart(context) {
           Navigator.pop(context);
         },
         child: Container(
-          height: MediaQuery.of(context).size.height * 0.084,
-          width: MediaQuery.of(context).size.width * 0.68,
+          height: screenSize.height * 0.084,
+          width: screenSize.width * 0.68,
           decoration: BoxDecoration(
             color: defaultColor,
             borderRadius: BorderRadius.circular(30.0),
@@ -423,6 +422,7 @@ Widget emptyFavorite(context) {
 
 Widget productDetailsItem(context, imagesController, productId, id) {
   ProductCubit cubit = ProductCubit.get(context);
+  var screenSize = MediaQuery.of(context).size;
   return Column(
     children: [
       SizedBox(
@@ -472,7 +472,7 @@ Widget productDetailsItem(context, imagesController, productId, id) {
             Row(
               children: [
                 SizedBox(
-                  width: MediaQuery.of(context).size.width / 2,
+                  width: screenSize.width / 2,
                   child: Text(
                     '${cubit.productDetailsModel!.data!.name}',
                     style: const TextStyle(
@@ -546,7 +546,7 @@ Widget productDetailsItem(context, imagesController, productId, id) {
               height: 10.0,
             ),
             SizedBox(
-              height: MediaQuery.of(context).size.height * 0.18,
+              height: screenSize.height * 0.18,
               child: SingleChildScrollView(
                 child: ReadMoreText(
                   '${cubit.productDetailsModel!.data!.description}',
@@ -582,8 +582,8 @@ Widget productDetailsItem(context, imagesController, productId, id) {
             );
           },
           child: Container(
-            height: MediaQuery.of(context).size.height * 0.07,
-            width: MediaQuery.of(context).size.width * 1,
+            height: screenSize.height * 0.07,
+            width: screenSize.width * 1,
             decoration: BoxDecoration(
                 color: (cubit.productDetailsModel!.data!.inCart)
                     ? defaultColor

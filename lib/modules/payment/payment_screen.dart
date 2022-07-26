@@ -8,6 +8,7 @@ import '../../shared/components/components.dart';
 class PaymentScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var screenSize = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
         body: Stack(
@@ -15,7 +16,7 @@ class PaymentScreen extends StatelessWidget {
           children: [
             Container(
               color: Colors.blueGrey.shade800,
-              height: MediaQuery.of(context).size.height * 0.3,
+              height: screenSize.height * 0.3,
               child: Padding(
                 padding: const EdgeInsetsDirectional.only(
                     top: 15, start: 10, end: 20),
@@ -46,7 +47,7 @@ class PaymentScreen extends StatelessWidget {
               ),
             ),
             Container(
-              height: MediaQuery.of(context).size.height * 1,
+              height: screenSize.height * 1,
               width: double.infinity,
               decoration: const BoxDecoration(
                   color: Colors.white,
@@ -75,8 +76,8 @@ class PaymentScreen extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsetsDirectional.only(start: 65.0),
                     child: SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.355,
-                      width: MediaQuery.of(context).size.width * 0.9,
+                      height: screenSize.height * 0.355,
+                      width: screenSize.width * 0.9,
                       child: ListView.separated(
                         itemBuilder: (context, index) {
                           return Row(
@@ -110,7 +111,7 @@ class PaymentScreen extends StatelessWidget {
                   ),
                   const Spacer(),
                   Container(
-                    height: MediaQuery.of(context).size.height * 0.13,
+                    height: screenSize.height * 0.13,
                     decoration: BoxDecoration(
                         color: Colors.blueGrey.shade800,
                         borderRadius: const BorderRadius.only(
@@ -191,8 +192,8 @@ class PaymentScreen extends StatelessWidget {
                     width: 10.0,
                   ),
                   Container(
-                    height: MediaQuery.of(context).size.height * 0.22,
-                    width: MediaQuery.of(context).size.width * 0.18,
+                    height: screenSize.height * 0.22,
+                    width: screenSize.width * 0.18,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(25.0),
                       color: Colors.white,
@@ -217,7 +218,7 @@ class PaymentScreen extends StatelessWidget {
                   ),
                   Expanded(
                     child: SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.22,
+                      height: screenSize.height * 0.22,
                       width: double.infinity,
                       child: ListView.separated(
                         physics: const BouncingScrollPhysics(),
@@ -226,7 +227,7 @@ class PaymentScreen extends StatelessWidget {
                             padding: const EdgeInsets.all(8.0),
                             child: Container(
                               height: 120,
-                              width: MediaQuery.of(context).size.width / 1.8,
+                              width: screenSize.width / 1.8,
                               decoration: BoxDecoration(
                                   color: Colors.grey.shade300,
                                   borderRadius: BorderRadius.circular(15.0),

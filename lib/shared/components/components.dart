@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shop_app/shared/styles/colors.dart';
 
@@ -178,3 +179,34 @@ Widget backButton(context) {
 }
 
 //========================================================================
+
+Widget paymentFormFiled({
+  required String hintText,
+  List<TextInputFormatter>? inputFormatters,
+  int? maxLength,
+  required TextInputType keyboardType,
+}) {
+  return TextFormField(
+    inputFormatters: inputFormatters,
+    decoration: InputDecoration(
+      hintText: hintText,
+      fillColor: Colors.grey.shade200,
+      filled: true,
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10.0),
+        borderSide: const BorderSide(
+          color: Colors.grey,
+        ),
+      ),
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(10.0),
+        borderSide: BorderSide(
+          color: Colors.grey.shade200,
+          width: 2.0,
+        ),
+      ),
+    ),
+    maxLength: maxLength,
+    keyboardType: keyboardType,
+  );
+}
